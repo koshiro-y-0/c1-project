@@ -1,0 +1,432 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ site.title }} - 編集 - WebQ{% endblock %}
+
+{% block extra_css %}
+<style>
+    .color-picker {
+        -webkit-appearance: none;
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .color-picker::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+    .color-picker::-webkit-color-swatch {
+        border: 2px solid #e5e7eb;
+        border-radius: 6px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100" x-data="{ activeTab: 'basic' }">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <a href="{% url 'sites:site_list' user_id=user.id %}"
+                       class="text-gray-600 hover:text-gray-900">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </a>
+                    <h1 class="text-xl font-bold text-gray-900">{{ site.title }}</h1>
+                </div>
+                <div class="flex gap-2">
+                    <a href="{% url 'sites:site_preview' site_id=site.id %}"
+                       target="_blank"
+                       class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                        プレビュー
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex gap-4 overflow-x-auto">
+                <button @click="activeTab = 'basic'"
+                        :class="activeTab === 'basic' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                    基本設定
+                </button>
+                <button @click="activeTab = 'top'"
+                        :class="activeTab === 'top' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                    トップ
+                </button>
+                <button @click="activeTab = 'main'"
+                        :class="activeTab === 'main' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                    メイン
+                </button>
+                <button @click="activeTab = 'sub'"
+                        :class="activeTab === 'sub' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                    サブ
+                </button>
+                <button @click="activeTab = 'access'"
+                        :class="activeTab === 'access' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                    アクセス
+                </button>
+                <button @click="activeTab = 'sns'"
+                        :class="activeTab === 'sns' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                    SNS
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Basic Settings Tab -->
+        <div x-show="activeTab === 'basic'" class="space-y-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">基本設定</h2>
+                <form method="post" action="{% url 'sites:site_edit' user_id=user.id site_id=site.id %}"
+                      hx-post="{% url 'sites:site_edit' user_id=user.id site_id=site.id %}"
+                      hx-trigger="change"
+                      hx-swap="none">
+                    {% csrf_token %}
+                    <input type="hidden" name="section" value="basic">
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">サイトタイトル</label>
+                        <input type="text" name="title" value="{{ site.title }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        保存
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Top Section Tab -->
+        <div x-show="activeTab === 'top'" class="space-y-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">トップセクション</h2>
+                <form method="post" action="{% url 'sites:site_edit' user_id=user.id site_id=site.id %}"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="section" value="top">
+
+                    <!-- Hero Image -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ヒーロー画像</label>
+                        {% if top_section.hero_image %}
+                        <div class="mb-2">
+                            <img src="{{ top_section.hero_image.url }}" alt="Hero" class="w-full max-w-md h-48 object-cover rounded-lg">
+                        </div>
+                        {% endif %}
+                        <input type="file" name="hero_image" accept=".jpg,.jpeg,.png,.webp"
+                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+
+                    <!-- Style Settings -->
+                    <div class="border-t pt-4 mt-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-4">スタイル設定</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">背景色</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="color" name="top_bg_color" value="{{ styles.top.background_color }}"
+                                           class="color-picker">
+                                    <input type="text" value="{{ styles.top.background_color }}"
+                                           class="w-24 px-2 py-1 text-sm border border-gray-300 rounded">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">文字色</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="color" name="top_text_color" value="{{ styles.top.text_color }}"
+                                           class="color-picker">
+                                    <input type="text" value="{{ styles.top.text_color }}"
+                                           class="w-24 px-2 py-1 text-sm border border-gray-300 rounded">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">フォント</label>
+                                <select name="top_font" class="w-full px-2 py-1 text-sm border border-gray-300 rounded">
+                                    <option value="Noto Sans JP" {% if styles.top.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
+                                    <option value="Noto Serif JP" {% if styles.top.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
+                                    <option value="M PLUS 1p" {% if styles.top.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        保存
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Section Tab -->
+        <div x-show="activeTab === 'main'" class="space-y-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">メインセクション（カルーセル）</h2>
+                <form method="post" action="{% url 'sites:site_edit' user_id=user.id site_id=site.id %}"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="section" value="main">
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">タイトル</label>
+                        <input type="text" name="main_title" value="{{ main_section.title }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">サブタイトル</label>
+                        <input type="text" name="main_subtitle" value="{{ main_section.subtitle }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <!-- Carousel Images -->
+                    <div class="space-y-4">
+                        {% for i in "123" %}
+                        <div class="border rounded-lg p-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">カルーセル画像{{ i }}</label>
+                            {% with img=main_section|getattr:"image"|add:i %}
+                            {% if img %}
+                            <div class="mb-2">
+                                <img src="{{ img.url }}" alt="Carousel {{ i }}" class="w-48 h-32 object-cover rounded">
+                            </div>
+                            {% endif %}
+                            {% endwith %}
+                            <input type="file" name="main_image{{ i }}" accept=".jpg,.jpeg,.png,.webp"
+                                   class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Style Settings -->
+                    <div class="border-t pt-4 mt-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-4">スタイル設定</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">背景色</label>
+                                <input type="color" name="main_bg_color" value="{{ styles.main.background_color }}"
+                                       class="color-picker">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">文字色</label>
+                                <input type="color" name="main_text_color" value="{{ styles.main.text_color }}"
+                                       class="color-picker">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        保存
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sub Section Tab -->
+        <div x-show="activeTab === 'sub'" class="space-y-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">サブセクション</h2>
+                <form method="post" action="{% url 'sites:site_edit' user_id=user.id site_id=site.id %}"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="section" value="sub">
+
+                    {% for i in "123" %}
+                    <div class="border rounded-lg p-4 mb-4">
+                        <h3 class="font-medium text-gray-700 mb-3">コンテンツ{{ i }}</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">画像{{ i }}</label>
+                                <input type="file" name="sub_image{{ i }}" accept=".jpg,.jpeg,.png,.webp"
+                                       class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">テキスト{{ i }}</label>
+                                <textarea name="sub_text{{ i }}" rows="3"
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{% if i == '1' %}{{ sub_section.text1 }}{% elif i == '2' %}{{ sub_section.text2 }}{% else %}{{ sub_section.text3 }}{% endif %}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <!-- Style Settings -->
+                    <div class="border-t pt-4 mt-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-4">スタイル設定</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">背景色</label>
+                                <input type="color" name="sub_bg_color" value="{{ styles.sub.background_color }}"
+                                       class="color-picker">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">文字色</label>
+                                <input type="color" name="sub_text_color" value="{{ styles.sub.text_color }}"
+                                       class="color-picker">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        保存
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Access Section Tab -->
+        <div x-show="activeTab === 'access'" class="space-y-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">アクセスセクション</h2>
+                <form method="post" action="{% url 'sites:site_edit' user_id=user.id site_id=site.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="section" value="access">
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">セクションタイトル</label>
+                        <input type="text" name="access_title" value="{{ access_section.section_title }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">住所（Googleマップ表示用）</label>
+                        <input type="text" name="access_address" value="{{ access_section.address }}"
+                               placeholder="例: 東京都港区芝公園4丁目2-8"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">電話番号</label>
+                        <input type="text" name="access_phone" value="{{ access_section.phone }}"
+                               placeholder="例: 03-1234-5678"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">営業時間</label>
+                        <div id="business-hours" class="space-y-2">
+                            <div class="flex gap-2">
+                                <input type="text" name="hours_day[]" placeholder="曜日（例: 月-金）"
+                                       class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                                <input type="text" name="hours_time[]" placeholder="時間（例: 9:00-18:00）"
+                                       class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="text" name="hours_day[]" placeholder="曜日（例: 土日祝）"
+                                       class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                                <input type="text" name="hours_time[]" placeholder="時間（例: 定休日）"
+                                       class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Style Settings -->
+                    <div class="border-t pt-4 mt-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-4">スタイル設定</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">背景色</label>
+                                <input type="color" name="access_bg_color" value="{{ styles.access.background_color }}"
+                                       class="color-picker">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">文字色</label>
+                                <input type="color" name="access_text_color" value="{{ styles.access.text_color }}"
+                                       class="color-picker">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        保存
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SNS Tab -->
+        <div x-show="activeTab === 'sns'" class="space-y-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">SNSリンク設定</h2>
+                <form method="post" action="{% url 'sites:site_edit' user_id=user.id site_id=site.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="section" value="sns">
+
+                    <div class="space-y-4">
+                        {% for platform, label in sns_platforms %}
+                        <div class="flex items-center gap-4">
+                            <div class="w-24 flex items-center gap-2">
+                                <span class="text-sm font-medium text-gray-700">{{ label }}</span>
+                            </div>
+                            <input type="url" name="sns_{{ platform }}"
+                                   placeholder="https://..."
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        {% empty %}
+                        <div class="flex items-center gap-4">
+                            <div class="w-24">
+                                <span class="text-sm font-medium text-gray-700">Instagram</span>
+                            </div>
+                            <input type="url" name="sns_instagram" placeholder="https://instagram.com/..."
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-24">
+                                <span class="text-sm font-medium text-gray-700">X (Twitter)</span>
+                            </div>
+                            <input type="url" name="sns_x" placeholder="https://x.com/..."
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-24">
+                                <span class="text-sm font-medium text-gray-700">LINE</span>
+                            </div>
+                            <input type="url" name="sns_line" placeholder="https://line.me/..."
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-24">
+                                <span class="text-sm font-medium text-gray-700">Facebook</span>
+                            </div>
+                            <input type="url" name="sns_facebook" placeholder="https://facebook.com/..."
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-24">
+                                <span class="text-sm font-medium text-gray-700">YouTube</span>
+                            </div>
+                            <input type="url" name="sns_youtube" placeholder="https://youtube.com/..."
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-24">
+                                <span class="text-sm font-medium text-gray-700">TikTok</span>
+                            </div>
+                            <input type="url" name="sns_tiktok" placeholder="https://tiktok.com/..."
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        保存
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
