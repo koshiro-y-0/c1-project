@@ -10,22 +10,22 @@
 ## Phase 0: 環境構築
 
 ### 0.1 Python環境
-- [ ] Python仮想環境の作成 (`python -m venv venv`)
-- [ ] 仮想環境の有効化
-- [ ] pip のアップグレード
+- [x] Python仮想環境の作成 (`python -m venv venv`)
+- [x] 仮想環境の有効化
+- [x] pip のアップグレード
 
 ### 0.2 パッケージインストール
-- [ ] Django インストール
-- [ ] Pillow インストール（画像処理用）
-- [ ] django-htmx インストール
-- [ ] requirements.txt 作成
+- [x] Django インストール
+- [x] Pillow インストール（画像処理用）
+- [x] django-htmx インストール
+- [x] requirements.txt 作成
 
 ### 0.3 Node.js環境（TailwindCSS用）
-- [ ] package.json 作成
-- [ ] TailwindCSS インストール
-- [ ] postcss, autoprefixer インストール
-- [ ] tailwind.config.js 作成
-- [ ] ビルドスクリプト設定
+- [x] package.json 作成
+- [x] TailwindCSS インストール
+- [x] postcss, autoprefixer インストール
+- [x] tailwind.config.js 作成
+- [x] ビルドスクリプト設定
 
 ---
 
@@ -329,7 +329,7 @@
 
 | フェーズ | タスク数 | 完了 | 進捗 |
 |---------|---------|------|------|
-| Phase 0 | 9 | 0 | 0% |
+| Phase 0 | 9 | 9 | 100% |
 | Phase 1 | 16 | 0 | 0% |
 | Phase 2 | 23 | 0 | 0% |
 | Phase 3 | 8 | 0 | 0% |
@@ -339,7 +339,7 @@
 | Phase 7 | 12 | 0 | 0% |
 | Phase 8 | 10 | 0 | 0% |
 | Phase 9 | 9 | 0 | 0% |
-| **合計** | **136** | **0** | **0%** |
+| **合計** | **136** | **9** | **7%** |
 
 ---
 
