@@ -62,54 +62,54 @@
 ## Phase 2: データモデル実装
 
 ### 2.1 モデル定義
-- [ ] Site モデル作成
-  - [ ] user (ForeignKey)
-  - [ ] title (CharField)
-  - [ ] created_at, updated_at
+- [x] Site モデル作成
+  - [x] user (ForeignKey)
+  - [x] title (CharField)
+  - [x] created_at, updated_at
 
-- [ ] SectionStyle モデル作成
-  - [ ] site (ForeignKey)
-  - [ ] section_name (CharField)
-  - [ ] background_color (CharField)
-  - [ ] text_color (CharField)
-  - [ ] font_family (CharField)
+- [x] SectionStyle モデル作成
+  - [x] site (ForeignKey)
+  - [x] section_name (CharField)
+  - [x] background_color (CharField)
+  - [x] text_color (CharField)
+  - [x] font_family (CharField)
 
-- [ ] TopSection モデル作成
-  - [ ] site (OneToOneField)
-  - [ ] hero_image (ImageField)
+- [x] TopSection モデル作成
+  - [x] site (OneToOneField)
+  - [x] hero_image (ImageField)
 
-- [ ] SNSLink モデル作成
-  - [ ] site (ForeignKey)
-  - [ ] platform (CharField)
-  - [ ] url (URLField)
-  - [ ] is_active (BooleanField)
+- [x] SNSLink モデル作成
+  - [x] site (ForeignKey)
+  - [x] platform (CharField)
+  - [x] url (URLField)
+  - [x] is_active (BooleanField)
 
-- [ ] MainSection モデル作成
-  - [ ] site (OneToOneField)
-  - [ ] title, subtitle
-  - [ ] image1, image2, image3
+- [x] MainSection モデル作成
+  - [x] site (OneToOneField)
+  - [x] title, subtitle
+  - [x] image1, image2, image3
 
-- [ ] SubSection モデル作成
-  - [ ] site (OneToOneField)
-  - [ ] image1, text1
-  - [ ] image2, text2
-  - [ ] image3, text3
+- [x] SubSection モデル作成
+  - [x] site (OneToOneField)
+  - [x] image1, text1
+  - [x] image2, text2
+  - [x] image3, text3
 
-- [ ] AccessSection モデル作成
-  - [ ] site (OneToOneField)
-  - [ ] section_title
-  - [ ] address
-  - [ ] phone
-  - [ ] business_hours (JSONField)
+- [x] AccessSection モデル作成
+  - [x] site (OneToOneField)
+  - [x] section_title
+  - [x] address
+  - [x] phone
+  - [x] business_hours (JSONField)
 
 ### 2.2 マイグレーション
-- [ ] マイグレーションファイル作成
-- [ ] マイグレーション実行
-- [ ] 管理者ユーザー作成
+- [x] マイグレーションファイル作成
+- [x] マイグレーション実行
+- [x] 管理者ユーザー作成
 
 ### 2.3 Django Admin設定
-- [ ] 各モデルをadmin.pyに登録
-- [ ] 管理画面でのデータ確認
+- [x] 各モデルをadmin.pyに登録
+- [x] 管理画面でのデータ確認
 
 ---
 
@@ -331,7 +331,7 @@
 |---------|---------|------|------|
 | Phase 0 | 9 | 9 | 100% |
 | Phase 1 | 16 | 16 | 100% |
-| Phase 2 | 23 | 0 | 0% |
+| Phase 2 | 23 | 23 | 100% |
 | Phase 3 | 8 | 0 | 0% |
 | Phase 4 | 17 | 0 | 0% |
 | Phase 5 | 18 | 0 | 0% |
@@ -339,7 +339,7 @@
 | Phase 7 | 12 | 0 | 0% |
 | Phase 8 | 10 | 0 | 0% |
 | Phase 9 | 9 | 0 | 0% |
-| **合計** | **136** | **25** | **18%** |
+| **合計** | **136** | **48** | **35%** |
 
 ---
 
