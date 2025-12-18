@@ -32,30 +32,30 @@
 ## Phase 1: Djangoプロジェクト基盤
 
 ### 1.1 プロジェクト作成
-- [ ] Djangoプロジェクト作成 (`django-admin startproject webq .`)
-- [ ] sitesアプリ作成 (`python manage.py startapp sites`)
-- [ ] settings.py の基本設定
-  - [ ] INSTALLED_APPS に sites 追加
-  - [ ] TEMPLATES 設定
-  - [ ] STATIC_URL, STATICFILES_DIRS 設定
-  - [ ] MEDIA_URL, MEDIA_ROOT 設定
-  - [ ] 言語・タイムゾーン設定（ja, Asia/Tokyo）
+- [x] Djangoプロジェクト作成 (`django-admin startproject webq .`)
+- [x] sitesアプリ作成 (`python manage.py startapp sites`)
+- [x] settings.py の基本設定
+  - [x] INSTALLED_APPS に sites 追加
+  - [x] TEMPLATES 設定
+  - [x] STATIC_URL, STATICFILES_DIRS 設定
+  - [x] MEDIA_URL, MEDIA_ROOT 設定
+  - [x] 言語・タイムゾーン設定（ja, Asia/Tokyo）
 
 ### 1.2 ディレクトリ構造作成
-- [ ] templates/ ディレクトリ作成
-- [ ] templates/sites/ ディレクトリ作成
-- [ ] templates/components/ ディレクトリ作成
-- [ ] static/ ディレクトリ作成
-- [ ] static/css/ ディレクトリ作成
-- [ ] static/js/ ディレクトリ作成
-- [ ] media/ ディレクトリ作成
+- [x] templates/ ディレクトリ作成
+- [x] templates/sites/ ディレクトリ作成
+- [x] templates/components/ ディレクトリ作成
+- [x] static/ ディレクトリ作成
+- [x] static/css/ ディレクトリ作成
+- [x] static/js/ ディレクトリ作成
+- [x] media/ ディレクトリ作成
 
 ### 1.3 静的ファイル準備
-- [ ] HTMX ダウンロード/CDN設定
-- [ ] Alpine.js ダウンロード/CDN設定
-- [ ] Swiper.js ダウンロード/CDN設定
-- [ ] TailwindCSS 入力ファイル作成 (input.css)
-- [ ] TailwindCSS ビルド確認
+- [x] HTMX ダウンロード/CDN設定
+- [x] Alpine.js ダウンロード/CDN設定
+- [x] Swiper.js ダウンロード/CDN設定
+- [x] TailwindCSS 入力ファイル作成 (input.css)
+- [x] TailwindCSS ビルド確認
 
 ---
 
@@ -330,7 +330,7 @@
 | フェーズ | タスク数 | 完了 | 進捗 |
 |---------|---------|------|------|
 | Phase 0 | 9 | 9 | 100% |
-| Phase 1 | 16 | 0 | 0% |
+| Phase 1 | 16 | 16 | 100% |
 | Phase 2 | 23 | 0 | 0% |
 | Phase 3 | 8 | 0 | 0% |
 | Phase 4 | 17 | 0 | 0% |
@@ -339,7 +339,7 @@
 | Phase 7 | 12 | 0 | 0% |
 | Phase 8 | 10 | 0 | 0% |
 | Phase 9 | 9 | 0 | 0% |
-| **合計** | **136** | **9** | **7%** |
+| **合計** | **136** | **25** | **18%** |
 
 ---
 
