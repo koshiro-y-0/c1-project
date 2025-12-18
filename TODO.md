@@ -116,18 +116,18 @@
 ## Phase 3: URL・ビュー基盤
 
 ### 3.1 URL設定
-- [ ] webq/urls.py にsitesアプリのURL include
-- [ ] sites/urls.py 作成
-  - [ ] サイト一覧: `sites/<int:user_id>/`
-  - [ ] サイト編集: `sites/<int:user_id>/<int:site_id>/`
-  - [ ] プレビュー: `preview/<int:site_id>/`
-  - [ ] サイト新規作成: `sites/<int:user_id>/create/`
+- [x] webq/urls.py にsitesアプリのURL include
+- [x] sites/urls.py 作成
+  - [x] サイト一覧: `sites/<int:user_id>/`
+  - [x] サイト編集: `sites/<int:user_id>/<int:site_id>/`
+  - [x] プレビュー: `preview/<int:site_id>/`
+  - [x] サイト新規作成: `sites/<int:user_id>/create/`
 
 ### 3.2 基本ビュー作成
-- [ ] site_list ビュー（サイト一覧）
-- [ ] site_create ビュー（新規作成）
-- [ ] site_edit ビュー（編集）
-- [ ] site_preview ビュー（プレビュー）
+- [x] site_list ビュー（サイト一覧）
+- [x] site_create ビュー（新規作成）
+- [x] site_edit ビュー（編集）
+- [x] site_preview ビュー（プレビュー）
 
 ---
 
@@ -332,14 +332,14 @@
 | Phase 0 | 9 | 9 | 100% |
 | Phase 1 | 16 | 16 | 100% |
 | Phase 2 | 23 | 23 | 100% |
-| Phase 3 | 8 | 0 | 0% |
+| Phase 3 | 8 | 8 | 100% |
 | Phase 4 | 17 | 0 | 0% |
 | Phase 5 | 18 | 0 | 0% |
 | Phase 6 | 14 | 0 | 0% |
 | Phase 7 | 12 | 0 | 0% |
 | Phase 8 | 10 | 0 | 0% |
 | Phase 9 | 9 | 0 | 0% |
-| **合計** | **136** | **48** | **35%** |
+| **合計** | **136** | **56** | **41%** |
 
 ---
 
