@@ -322,7 +322,6 @@ def save_sns(request, user_id, site_id):
 
     for platform in platforms:
         url = request.POST.get(f'sns_{platform}', '').strip()
-        is_active = request.POST.get(f'sns_{platform}_active') == 'on'
 
         if url:
             sns_link, created = SNSLink.objects.update_or_create(
