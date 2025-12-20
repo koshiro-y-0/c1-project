@@ -5,59 +5,91 @@
 {% block content %}
 <div class="min-h-screen bg-gray-50">
     <!-- Header -->
-    <header class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <header class="bg-white shadow-soft sticky top-0 z-10">
+        <div class="container-custom py-4">
             <div class="flex justify-between items-center">
-                <h1 class="text-2xl font-bold text-gray-900">WebQ</h1>
-                <span class="text-gray-600">{{ user.username }} さん</span>
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl font-bold text-gradient">WebQ</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="hidden sm:inline text-gray-600">{{ user.username }} さん</span>
+                    <div class="w-8 h-8 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-medium">
+                        {{ user.username|first|upper }}
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-xl font-semibold text-gray-800">サイト一覧</h2>
+    <main class="container-custom py-8">
+        <!-- Page Header -->
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">サイト一覧</h1>
+                <p class="text-gray-500 mt-1">作成したサイトを管理できます</p>
+            </div>
             <a href="{% url 'sites:site_create' user_id=user.id %}"
-               class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+               class="btn-primary btn-lg inline-flex items-center gap-2 w-full sm:w-auto justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
                 新規サイト作成
             </a>
         </div>
 
         {% if sites %}
         <!-- Site Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for site in sites %}
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="card-hover overflow-hidden group">
                 <!-- Card Image -->
-                <div class="h-40 bg-gray-200 flex items-center justify-center">
+                <div class="h-40 sm:h-48 bg-gray-100 flex items-center justify-center relative overflow-hidden">
                     {% if site.top_section and site.top_section.hero_image %}
                     <img src="{{ site.top_section.hero_image.url }}"
                          alt="{{ site.title }}"
-                         class="w-full h-full object-cover">
+                         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
                     {% else %}
-                    <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
+                    <div class="image-placeholder w-full h-full">
+                        <svg class="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
                     {% endif %}
+                    <!-- Hover overlay -->
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                 </div>
 
                 <!-- Card Content -->
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ site.title }}</h3>
-                    <p class="text-sm text-gray-500 mb-4">
-                        更新: {{ site.updated_at|date:"Y/m/d H:i" }}
+                <div class="card-body">
+                    <h3 class="card-title mb-2 text-truncate">{{ site.title }}</h3>
+                    <p class="text-sm text-gray-500 flex items-center gap-1 mb-4">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        {{ site.updated_at|date:"Y/m/d H:i" }}
                     </p>
 
                     <div class="flex gap-2">
                         <a href="{% url 'sites:site_edit' user_id=user.id site_id=site.id %}"
-                           class="flex-1 text-center bg-gray-100 text-gray-700 px-3 py-2 rounded hover:bg-gray-200 transition-colors text-sm">
+                           class="btn-secondary flex-1 flex items-center justify-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
                             編集
                         </a>
                         <a href="{% url 'sites:site_preview' site_id=site.id %}"
                            target="_blank"
-                           class="flex-1 text-center bg-blue-100 text-blue-700 px-3 py-2 rounded hover:bg-blue-200 transition-colors text-sm">
+                           class="btn-outline flex-1 flex items-center justify-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
                             プレビュー
                         </a>
                     </div>
@@ -65,21 +97,41 @@
             </div>
             {% endfor %}
         </div>
+
+        <!-- Site count -->
+        <div class="mt-8 text-center text-sm text-gray-500">
+            {{ sites|length }} 件のサイト
+        </div>
         {% else %}
         <!-- Empty State -->
-        <div class="text-center py-16">
-            <svg class="w-24 h-24 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-            <h3 class="text-lg font-medium text-gray-600 mb-2">サイトがありません</h3>
-            <p class="text-gray-500 mb-6">新しいサイトを作成してみましょう</p>
+        <div class="text-center py-16 sm:py-24">
+            <div class="w-24 h-24 sm:w-32 sm:h-32 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-12 h-12 sm:w-16 sm:h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">サイトがありません</h3>
+            <p class="text-gray-500 mb-8 max-w-md mx-auto">
+                「新規サイト作成」ボタンをクリックして、<br class="hidden sm:inline">
+                最初のウェブサイトを作成してみましょう
+            </p>
             <a href="{% url 'sites:site_create' user_id=user.id %}"
-               class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+               class="btn-primary btn-lg inline-flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
                 新規サイト作成
             </a>
         </div>
         {% endif %}
     </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 mt-auto">
+        <div class="container-custom py-6 text-center text-sm text-gray-500">
+            <p>&copy; 2024 WebQ. All rights reserved.</p>
+        </div>
+    </footer>
 </div>
 {% endblock %}

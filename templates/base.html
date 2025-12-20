@@ -2,25 +2,62 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="{% block meta_description %}WebQ - かんたんウェブサイト作成ツール{% endblock %}">
     <title>{% block title %}WebQ{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>W</text></svg>">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <!-- Google Fonts - All fonts used in the app -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;500;700&family=Kosugi+Maru&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;700&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
 
     <!-- TailwindCSS -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- Swiper.js CSS (for carousel) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
     {% block extra_css %}{% endblock %}
 </head>
-<body class="font-sans bg-gray-50 text-gray-900">
-    {% block content %}{% endblock %}
+<body class="font-sans bg-gray-50 text-gray-900 antialiased">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary-600 text-white px-4 py-2 rounded-lg z-50">
+        メインコンテンツへスキップ
+    </a>
+
+    <!-- Flash Messages -->
+    {% if messages %}
+    <div id="flash-messages" class="fixed top-4 right-4 z-50 space-y-2 max-w-sm">
+        {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-error{% elif message.tags == 'warning' %}alert-warning{% else %}alert-info{% endif %} animate-slide-down shadow-medium"
+             x-data="{ show: true }"
+             x-show="show"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             x-init="setTimeout(() => show = false, 5000)">
+            <span>{{ message }}</span>
+            <button @click="show = false" class="ml-auto text-current opacity-70 hover:opacity-100">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div id="main-content">
+        {% block content %}{% endblock %}
+    </div>
 
     <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
@@ -30,6 +67,33 @@
 
     <!-- Swiper.js -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Global Scripts -->
+    <script>
+        // HTMX configuration
+        document.body.addEventListener('htmx:configRequest', function(event) {
+            // Add CSRF token to all HTMX requests
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+            if (csrfToken) {
+                event.detail.headers['X-CSRFToken'] = csrfToken.value;
+            }
+        });
+
+        // Loading indicator for HTMX requests
+        document.body.addEventListener('htmx:beforeRequest', function(event) {
+            const target = event.target;
+            if (target.querySelector('.htmx-indicator')) {
+                target.querySelector('.htmx-indicator').classList.remove('hidden');
+            }
+        });
+
+        document.body.addEventListener('htmx:afterRequest', function(event) {
+            const target = event.target;
+            if (target.querySelector('.htmx-indicator')) {
+                target.querySelector('.htmx-indicator').classList.add('hidden');
+            }
+        });
+    </script>
 
     {% block extra_js %}{% endblock %}
 </body>

@@ -4,95 +4,75 @@
 
 {% block extra_css %}
 <style>
-    .color-picker {
-        -webkit-appearance: none;
-        width: 40px;
-        height: 40px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
+    .image-preview-container {
+        @apply relative overflow-hidden rounded-lg bg-gray-100;
     }
-    .color-picker::-webkit-color-swatch-wrapper {
-        padding: 0;
-    }
-    .color-picker::-webkit-color-swatch {
-        border: 2px solid #e5e7eb;
-        border-radius: 6px;
-    }
-    .image-preview {
-        max-width: 100%;
-        max-height: 200px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
-    .save-indicator {
-        transition: opacity 0.3s ease;
+    .image-preview-img {
+        @apply w-full h-48 object-cover;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-100" x-data="{ activeTab: 'basic' }">
+<div class="min-h-screen bg-gray-50" x-data="{ activeTab: 'basic' }">
     <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <header class="bg-white shadow-soft sticky top-0 z-10">
+        <div class="container-custom py-4">
             <div class="flex justify-between items-center">
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 sm:gap-4">
                     <a href="{% url 'sites:site_list' user_id=user.id %}"
-                       class="text-gray-600 hover:text-gray-900">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       class="btn-ghost p-2 -ml-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                     </a>
-                    <h1 class="text-xl font-bold text-gray-900">{{ site.title }}</h1>
+                    <h1 class="text-lg sm:text-xl font-bold text-gray-900 text-truncate max-w-[200px] sm:max-w-none">{{ site.title }}</h1>
                 </div>
-                <div class="flex gap-2">
-                    <a href="{% url 'sites:site_preview' site_id=site.id %}"
-                       target="_blank"
-                       class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                        </svg>
-                        プレビュー
-                    </a>
-                </div>
+                <a href="{% url 'sites:site_preview' site_id=site.id %}"
+                   target="_blank"
+                   class="btn-secondary flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    <span class="hidden sm:inline">プレビュー</span>
+                </a>
             </div>
         </div>
     </header>
 
     <!-- Tab Navigation -->
-    <div class="bg-white border-b">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav class="flex gap-4 overflow-x-auto">
+    <div class="bg-white border-b border-gray-200">
+        <div class="container-custom">
+            <nav class="flex gap-1 overflow-x-auto scrollbar-hide -mb-px">
                 <button @click="activeTab = 'basic'"
-                        :class="activeTab === 'basic' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
-                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                        :class="activeTab === 'basic' ? 'tab-active' : 'tab-inactive'"
+                        class="tab">
                     基本設定
                 </button>
                 <button @click="activeTab = 'top'"
-                        :class="activeTab === 'top' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
-                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                        :class="activeTab === 'top' ? 'tab-active' : 'tab-inactive'"
+                        class="tab">
                     トップ
                 </button>
                 <button @click="activeTab = 'main'"
-                        :class="activeTab === 'main' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
-                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                        :class="activeTab === 'main' ? 'tab-active' : 'tab-inactive'"
+                        class="tab">
                     メイン
                 </button>
                 <button @click="activeTab = 'sub'"
-                        :class="activeTab === 'sub' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
-                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                        :class="activeTab === 'sub' ? 'tab-active' : 'tab-inactive'"
+                        class="tab">
                     サブ
                 </button>
                 <button @click="activeTab = 'access'"
-                        :class="activeTab === 'access' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
-                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                        :class="activeTab === 'access' ? 'tab-active' : 'tab-inactive'"
+                        class="tab">
                     アクセス
                 </button>
                 <button @click="activeTab = 'sns'"
-                        :class="activeTab === 'sns' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
-                        class="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap">
+                        :class="activeTab === 'sns' ? 'tab-active' : 'tab-inactive'"
+                        class="tab">
                     SNS
                 </button>
             </nav>
@@ -100,84 +80,80 @@
     </div>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <!-- Basic Settings Tab -->
-        <div x-show="activeTab === 'basic'" class="space-y-6">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">基本設定</h2>
-                <form method="post" action="{% url 'sites:save_basic' user_id=user.id site_id=site.id %}"
-                      hx-post="{% url 'sites:save_basic' user_id=user.id site_id=site.id %}"
-                      hx-target="#save-indicator-basic"
-                      hx-swap="innerHTML">
-                    {% csrf_token %}
+        <div x-show="activeTab === 'basic'" class="space-y-6" x-cloak>
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title mb-6">基本設定</h2>
+                    <form method="post" action="{% url 'sites:save_basic' user_id=user.id site_id=site.id %}"
+                          hx-post="{% url 'sites:save_basic' user_id=user.id site_id=site.id %}"
+                          hx-target="#save-indicator-basic"
+                          hx-swap="innerHTML">
+                        {% csrf_token %}
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">サイトタイトル</label>
-                        <input type="text" name="title" value="{{ site.title }}"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
+                        <div class="form-group">
+                            <label class="form-label">サイトタイトル</label>
+                            <input type="text" name="title" value="{{ site.title }}" class="form-input">
+                        </div>
 
-                    <div class="flex items-center gap-4">
-                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                            保存
-                        </button>
-                        <div id="save-indicator-basic" class="save-indicator"></div>
-                    </div>
-                </form>
+                        <div class="flex items-center gap-4 pt-2">
+                            <button type="submit" class="btn-primary">保存</button>
+                            <div id="save-indicator-basic" class="save-indicator"></div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
         <!-- Top Section Tab -->
-        <div x-show="activeTab === 'top'" class="space-y-6">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">トップセクション</h2>
-                <form method="post" action="{% url 'sites:save_top' user_id=user.id site_id=site.id %}"
-                      enctype="multipart/form-data"
-                      hx-post="{% url 'sites:save_top' user_id=user.id site_id=site.id %}"
-                      hx-encoding="multipart/form-data"
-                      hx-target="#save-indicator-top"
-                      hx-swap="innerHTML">
-                    {% csrf_token %}
+        <div x-show="activeTab === 'top'" class="space-y-6" x-cloak>
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title mb-6">トップセクション</h2>
+                    <form method="post" action="{% url 'sites:save_top' user_id=user.id site_id=site.id %}"
+                          enctype="multipart/form-data"
+                          hx-post="{% url 'sites:save_top' user_id=user.id site_id=site.id %}"
+                          hx-encoding="multipart/form-data"
+                          hx-target="#save-indicator-top"
+                          hx-swap="innerHTML">
+                        {% csrf_token %}
 
-                    <!-- Hero Image -->
-                    <div class="mb-6" x-data="{ imagePreview: '{% if top_section.hero_image %}{{ top_section.hero_image.url }}{% endif %}' }">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">ヒーロー画像</label>
-                        <template x-if="imagePreview">
-                            <div class="mb-3">
-                                <img :src="imagePreview" alt="プレビュー" class="image-preview w-full max-w-md h-48 object-cover">
-                            </div>
-                        </template>
-                        <input type="file" name="hero_image" accept=".jpg,.jpeg,.png,.webp"
-                               @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
-                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                        <p class="mt-1 text-xs text-gray-500">対応形式: JPG, PNG, WebP</p>
-                    </div>
+                        <!-- Hero Image -->
+                        <div class="form-group" x-data="{ imagePreview: '{% if top_section.hero_image %}{{ top_section.hero_image.url }}{% endif %}' }">
+                            <label class="form-label">ヒーロー画像</label>
+                            <template x-if="imagePreview">
+                                <div class="mb-3 rounded-lg overflow-hidden max-w-md">
+                                    <img :src="imagePreview" alt="プレビュー" class="w-full h-48 object-cover">
+                                </div>
+                            </template>
+                            <input type="file" name="hero_image" accept=".jpg,.jpeg,.png,.webp"
+                                   @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
+                                   class="form-file">
+                            <p class="form-help-text">対応形式: JPG, PNG, WebP</p>
+                        </div>
 
-                    <!-- Style Settings -->
-                    <div class="border-t pt-4 mt-4">
-                        <h3 class="text-sm font-medium text-gray-700 mb-4">スタイル設定</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">背景色</label>
-                                <div class="flex items-center gap-2">
-                                    <input type="color" name="top-background_color" value="{{ styles.top.background_color }}"
-                                           class="color-picker">
-                                    <input type="text" value="{{ styles.top.background_color }}"
-                                           class="w-24 px-2 py-1 text-sm border border-gray-300 rounded" readonly>
+                        <!-- Style Settings -->
+                        <div class="divider my-6"></div>
+                        <h3 class="text-sm font-semibold text-gray-700 mb-4">スタイル設定</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">背景色</label>
+                                <div class="flex items-center gap-3">
+                                    <input type="color" name="top-background_color" value="{{ styles.top.background_color }}" class="color-picker">
+                                    <input type="text" value="{{ styles.top.background_color }}" class="form-input w-24 text-sm" readonly>
                                 </div>
                             </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">文字色</label>
-                                <div class="flex items-center gap-2">
-                                    <input type="color" name="top-text_color" value="{{ styles.top.text_color }}"
-                                           class="color-picker">
-                                    <input type="text" value="{{ styles.top.text_color }}"
-                                           class="w-24 px-2 py-1 text-sm border border-gray-300 rounded" readonly>
+                            <div class="form-group">
+                                <label class="form-label">文字色</label>
+                                <div class="flex items-center gap-3">
+                                    <input type="color" name="top-text_color" value="{{ styles.top.text_color }}" class="color-picker">
+                                    <input type="text" value="{{ styles.top.text_color }}" class="form-input w-24 text-sm" readonly>
                                 </div>
                             </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">フォント</label>
-                                <select name="top-font_family" class="w-full px-2 py-1 text-sm border border-gray-300 rounded">
+                            <div class="form-group">
+                                <label class="form-label">フォント</label>
+                                <select name="top-font_family" class="form-select">
                                     <option value="Noto Sans JP" {% if styles.top.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
                                     <option value="Noto Serif JP" {% if styles.top.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
                                     <option value="M PLUS 1p" {% if styles.top.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
@@ -186,437 +162,406 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="flex items-center gap-4 mt-4">
-                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                            保存
-                        </button>
-                        <div id="save-indicator-top" class="save-indicator"></div>
-                    </div>
-                </form>
+                        <div class="flex items-center gap-4 pt-4">
+                            <button type="submit" class="btn-primary">保存</button>
+                            <div id="save-indicator-top" class="save-indicator"></div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
         <!-- Main Section Tab -->
-        <div x-show="activeTab === 'main'" class="space-y-6">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">メインセクション（カルーセル）</h2>
-                <form method="post" action="{% url 'sites:save_main' user_id=user.id site_id=site.id %}"
-                      enctype="multipart/form-data"
-                      hx-post="{% url 'sites:save_main' user_id=user.id site_id=site.id %}"
-                      hx-encoding="multipart/form-data"
-                      hx-target="#save-indicator-main"
-                      hx-swap="innerHTML">
-                    {% csrf_token %}
+        <div x-show="activeTab === 'main'" class="space-y-6" x-cloak>
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title mb-6">メインセクション（カルーセル）</h2>
+                    <form method="post" action="{% url 'sites:save_main' user_id=user.id site_id=site.id %}"
+                          enctype="multipart/form-data"
+                          hx-post="{% url 'sites:save_main' user_id=user.id site_id=site.id %}"
+                          hx-encoding="multipart/form-data"
+                          hx-target="#save-indicator-main"
+                          hx-swap="innerHTML">
+                        {% csrf_token %}
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">タイトル</label>
-                        <input type="text" name="title" value="{{ main_section.title }}"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">サブタイトル</label>
-                        <input type="text" name="subtitle" value="{{ main_section.subtitle }}"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-
-                    <!-- Carousel Images -->
-                    <div class="space-y-4">
-                        <!-- Image 1 -->
-                        <div class="border rounded-lg p-4" x-data="{ imagePreview: '{% if main_section.image1 %}{{ main_section.image1.url }}{% endif %}' }">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">カルーセル画像1</label>
-                            <template x-if="imagePreview">
-                                <div class="mb-2">
-                                    <img :src="imagePreview" alt="プレビュー" class="w-48 h-32 object-cover rounded">
-                                </div>
-                            </template>
-                            <input type="file" name="image1" accept=".jpg,.jpeg,.png,.webp"
-                                   @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
-                                   class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <div class="form-group">
+                            <label class="form-label">タイトル</label>
+                            <input type="text" name="title" value="{{ main_section.title }}" class="form-input">
                         </div>
 
-                        <!-- Image 2 -->
-                        <div class="border rounded-lg p-4" x-data="{ imagePreview: '{% if main_section.image2 %}{{ main_section.image2.url }}{% endif %}' }">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">カルーセル画像2</label>
-                            <template x-if="imagePreview">
-                                <div class="mb-2">
-                                    <img :src="imagePreview" alt="プレビュー" class="w-48 h-32 object-cover rounded">
-                                </div>
-                            </template>
-                            <input type="file" name="image2" accept=".jpg,.jpeg,.png,.webp"
-                                   @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
-                                   class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <div class="form-group">
+                            <label class="form-label">サブタイトル</label>
+                            <input type="text" name="subtitle" value="{{ main_section.subtitle }}" class="form-input">
                         </div>
 
-                        <!-- Image 3 -->
-                        <div class="border rounded-lg p-4" x-data="{ imagePreview: '{% if main_section.image3 %}{{ main_section.image3.url }}{% endif %}' }">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">カルーセル画像3</label>
-                            <template x-if="imagePreview">
-                                <div class="mb-2">
-                                    <img :src="imagePreview" alt="プレビュー" class="w-48 h-32 object-cover rounded">
-                                </div>
-                            </template>
-                            <input type="file" name="image3" accept=".jpg,.jpeg,.png,.webp"
-                                   @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
-                                   class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                        </div>
-                    </div>
-
-                    <!-- Style Settings -->
-                    <div class="border-t pt-4 mt-4">
-                        <h3 class="text-sm font-medium text-gray-700 mb-4">スタイル設定</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">背景色</label>
-                                <input type="color" name="main-background_color" value="{{ styles.main.background_color }}"
-                                       class="color-picker">
+                        <!-- Carousel Images -->
+                        <div class="space-y-4 mb-6">
+                            <!-- Image 1 -->
+                            <div class="card p-4" x-data="{ imagePreview: '{% if main_section.image1 %}{{ main_section.image1.url }}{% endif %}' }">
+                                <label class="form-label">カルーセル画像1</label>
+                                <template x-if="imagePreview">
+                                    <div class="mb-3">
+                                        <img :src="imagePreview" alt="プレビュー" class="w-48 h-32 object-cover rounded-lg">
+                                    </div>
+                                </template>
+                                <input type="file" name="image1" accept=".jpg,.jpeg,.png,.webp"
+                                       @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
+                                       class="form-file">
                             </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">文字色</label>
-                                <input type="color" name="main-text_color" value="{{ styles.main.text_color }}"
-                                       class="color-picker">
+
+                            <!-- Image 2 -->
+                            <div class="card p-4" x-data="{ imagePreview: '{% if main_section.image2 %}{{ main_section.image2.url }}{% endif %}' }">
+                                <label class="form-label">カルーセル画像2</label>
+                                <template x-if="imagePreview">
+                                    <div class="mb-3">
+                                        <img :src="imagePreview" alt="プレビュー" class="w-48 h-32 object-cover rounded-lg">
+                                    </div>
+                                </template>
+                                <input type="file" name="image2" accept=".jpg,.jpeg,.png,.webp"
+                                       @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
+                                       class="form-file">
                             </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">フォント</label>
-                                <select name="main-font_family" class="w-full px-2 py-1 text-sm border border-gray-300 rounded">
+
+                            <!-- Image 3 -->
+                            <div class="card p-4" x-data="{ imagePreview: '{% if main_section.image3 %}{{ main_section.image3.url }}{% endif %}' }">
+                                <label class="form-label">カルーセル画像3</label>
+                                <template x-if="imagePreview">
+                                    <div class="mb-3">
+                                        <img :src="imagePreview" alt="プレビュー" class="w-48 h-32 object-cover rounded-lg">
+                                    </div>
+                                </template>
+                                <input type="file" name="image3" accept=".jpg,.jpeg,.png,.webp"
+                                       @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
+                                       class="form-file">
+                            </div>
+                        </div>
+
+                        <!-- Style Settings -->
+                        <div class="divider my-6"></div>
+                        <h3 class="text-sm font-semibold text-gray-700 mb-4">スタイル設定</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">背景色</label>
+                                <input type="color" name="main-background_color" value="{{ styles.main.background_color }}" class="color-picker">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">文字色</label>
+                                <input type="color" name="main-text_color" value="{{ styles.main.text_color }}" class="color-picker">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">フォント</label>
+                                <select name="main-font_family" class="form-select">
                                     <option value="Noto Sans JP" {% if styles.main.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
                                     <option value="Noto Serif JP" {% if styles.main.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
                                     <option value="M PLUS 1p" {% if styles.main.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="flex items-center gap-4 mt-4">
-                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                            保存
-                        </button>
-                        <div id="save-indicator-main" class="save-indicator"></div>
-                    </div>
-                </form>
+                        <div class="flex items-center gap-4 pt-4">
+                            <button type="submit" class="btn-primary">保存</button>
+                            <div id="save-indicator-main" class="save-indicator"></div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
         <!-- Sub Section Tab -->
-        <div x-show="activeTab === 'sub'" class="space-y-6">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">サブセクション</h2>
-                <form method="post" action="{% url 'sites:save_sub' user_id=user.id site_id=site.id %}"
-                      enctype="multipart/form-data"
-                      hx-post="{% url 'sites:save_sub' user_id=user.id site_id=site.id %}"
-                      hx-encoding="multipart/form-data"
-                      hx-target="#save-indicator-sub"
-                      hx-swap="innerHTML">
-                    {% csrf_token %}
+        <div x-show="activeTab === 'sub'" class="space-y-6" x-cloak>
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title mb-6">サブセクション</h2>
+                    <form method="post" action="{% url 'sites:save_sub' user_id=user.id site_id=site.id %}"
+                          enctype="multipart/form-data"
+                          hx-post="{% url 'sites:save_sub' user_id=user.id site_id=site.id %}"
+                          hx-encoding="multipart/form-data"
+                          hx-target="#save-indicator-sub"
+                          hx-swap="innerHTML">
+                        {% csrf_token %}
 
-                    <!-- Content 1 -->
-                    <div class="border rounded-lg p-4 mb-4" x-data="{ imagePreview: '{% if sub_section.image1 %}{{ sub_section.image1.url }}{% endif %}' }">
-                        <h3 class="font-medium text-gray-700 mb-3">コンテンツ1（画像左・テキスト右）</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">画像1</label>
-                                <template x-if="imagePreview">
-                                    <div class="mb-2">
-                                        <img :src="imagePreview" alt="プレビュー" class="w-32 h-24 object-cover rounded">
-                                    </div>
-                                </template>
-                                <input type="file" name="image1" accept=".jpg,.jpeg,.png,.webp"
-                                       @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
-                                       class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                            </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">テキスト1</label>
-                                <textarea name="text1" rows="3"
-                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ sub_section.text1 }}</textarea>
+                        <!-- Content 1 -->
+                        <div class="card p-4 mb-4" x-data="{ imagePreview: '{% if sub_section.image1 %}{{ sub_section.image1.url }}{% endif %}' }">
+                            <h3 class="font-medium text-gray-800 mb-4">コンテンツ1（画像左・テキスト右）</h3>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div class="form-group mb-0">
+                                    <label class="form-label">画像1</label>
+                                    <template x-if="imagePreview">
+                                        <div class="mb-3">
+                                            <img :src="imagePreview" alt="プレビュー" class="w-32 h-24 object-cover rounded-lg">
+                                        </div>
+                                    </template>
+                                    <input type="file" name="image1" accept=".jpg,.jpeg,.png,.webp"
+                                           @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
+                                           class="form-file">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label class="form-label">テキスト1</label>
+                                    <textarea name="text1" rows="3" class="form-textarea">{{ sub_section.text1 }}</textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Content 2 -->
-                    <div class="border rounded-lg p-4 mb-4" x-data="{ imagePreview: '{% if sub_section.image2 %}{{ sub_section.image2.url }}{% endif %}' }">
-                        <h3 class="font-medium text-gray-700 mb-3">コンテンツ2（テキスト左・画像右）</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">テキスト2</label>
-                                <textarea name="text2" rows="3"
-                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ sub_section.text2 }}</textarea>
-                            </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">画像2</label>
-                                <template x-if="imagePreview">
-                                    <div class="mb-2">
-                                        <img :src="imagePreview" alt="プレビュー" class="w-32 h-24 object-cover rounded">
-                                    </div>
-                                </template>
-                                <input type="file" name="image2" accept=".jpg,.jpeg,.png,.webp"
-                                       @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
-                                       class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <!-- Content 2 -->
+                        <div class="card p-4 mb-4" x-data="{ imagePreview: '{% if sub_section.image2 %}{{ sub_section.image2.url }}{% endif %}' }">
+                            <h3 class="font-medium text-gray-800 mb-4">コンテンツ2（テキスト左・画像右）</h3>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div class="form-group mb-0 order-2 sm:order-1">
+                                    <label class="form-label">テキスト2</label>
+                                    <textarea name="text2" rows="3" class="form-textarea">{{ sub_section.text2 }}</textarea>
+                                </div>
+                                <div class="form-group mb-0 order-1 sm:order-2">
+                                    <label class="form-label">画像2</label>
+                                    <template x-if="imagePreview">
+                                        <div class="mb-3">
+                                            <img :src="imagePreview" alt="プレビュー" class="w-32 h-24 object-cover rounded-lg">
+                                        </div>
+                                    </template>
+                                    <input type="file" name="image2" accept=".jpg,.jpeg,.png,.webp"
+                                           @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
+                                           class="form-file">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Content 3 -->
-                    <div class="border rounded-lg p-4 mb-4" x-data="{ imagePreview: '{% if sub_section.image3 %}{{ sub_section.image3.url }}{% endif %}' }">
-                        <h3 class="font-medium text-gray-700 mb-3">コンテンツ3（画像左・テキスト右）</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">画像3</label>
-                                <template x-if="imagePreview">
-                                    <div class="mb-2">
-                                        <img :src="imagePreview" alt="プレビュー" class="w-32 h-24 object-cover rounded">
-                                    </div>
-                                </template>
-                                <input type="file" name="image3" accept=".jpg,.jpeg,.png,.webp"
-                                       @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
-                                       class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                            </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">テキスト3</label>
-                                <textarea name="text3" rows="3"
-                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ sub_section.text3 }}</textarea>
+                        <!-- Content 3 -->
+                        <div class="card p-4 mb-4" x-data="{ imagePreview: '{% if sub_section.image3 %}{{ sub_section.image3.url }}{% endif %}' }">
+                            <h3 class="font-medium text-gray-800 mb-4">コンテンツ3（画像左・テキスト右）</h3>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div class="form-group mb-0">
+                                    <label class="form-label">画像3</label>
+                                    <template x-if="imagePreview">
+                                        <div class="mb-3">
+                                            <img :src="imagePreview" alt="プレビュー" class="w-32 h-24 object-cover rounded-lg">
+                                        </div>
+                                    </template>
+                                    <input type="file" name="image3" accept=".jpg,.jpeg,.png,.webp"
+                                           @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
+                                           class="form-file">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label class="form-label">テキスト3</label>
+                                    <textarea name="text3" rows="3" class="form-textarea">{{ sub_section.text3 }}</textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Style Settings -->
-                    <div class="border-t pt-4 mt-4">
-                        <h3 class="text-sm font-medium text-gray-700 mb-4">スタイル設定</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">背景色</label>
-                                <input type="color" name="sub-background_color" value="{{ styles.sub.background_color }}"
-                                       class="color-picker">
+                        <!-- Style Settings -->
+                        <div class="divider my-6"></div>
+                        <h3 class="text-sm font-semibold text-gray-700 mb-4">スタイル設定</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">背景色</label>
+                                <input type="color" name="sub-background_color" value="{{ styles.sub.background_color }}" class="color-picker">
                             </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">文字色</label>
-                                <input type="color" name="sub-text_color" value="{{ styles.sub.text_color }}"
-                                       class="color-picker">
+                            <div class="form-group">
+                                <label class="form-label">文字色</label>
+                                <input type="color" name="sub-text_color" value="{{ styles.sub.text_color }}" class="color-picker">
                             </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">フォント</label>
-                                <select name="sub-font_family" class="w-full px-2 py-1 text-sm border border-gray-300 rounded">
+                            <div class="form-group">
+                                <label class="form-label">フォント</label>
+                                <select name="sub-font_family" class="form-select">
                                     <option value="Noto Sans JP" {% if styles.sub.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
                                     <option value="Noto Serif JP" {% if styles.sub.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
                                     <option value="M PLUS 1p" {% if styles.sub.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="flex items-center gap-4 mt-4">
-                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                            保存
-                        </button>
-                        <div id="save-indicator-sub" class="save-indicator"></div>
-                    </div>
-                </form>
+                        <div class="flex items-center gap-4 pt-4">
+                            <button type="submit" class="btn-primary">保存</button>
+                            <div id="save-indicator-sub" class="save-indicator"></div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
         <!-- Access Section Tab -->
-        <div x-show="activeTab === 'access'" class="space-y-6">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">アクセスセクション</h2>
-                <form method="post" action="{% url 'sites:save_access' user_id=user.id site_id=site.id %}"
-                      hx-post="{% url 'sites:save_access' user_id=user.id site_id=site.id %}"
-                      hx-target="#save-indicator-access"
-                      hx-swap="innerHTML">
-                    {% csrf_token %}
+        <div x-show="activeTab === 'access'" class="space-y-6" x-cloak>
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title mb-6">アクセスセクション</h2>
+                    <form method="post" action="{% url 'sites:save_access' user_id=user.id site_id=site.id %}"
+                          hx-post="{% url 'sites:save_access' user_id=user.id site_id=site.id %}"
+                          hx-target="#save-indicator-access"
+                          hx-swap="innerHTML">
+                        {% csrf_token %}
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">セクションタイトル</label>
-                        <input type="text" name="section_title" value="{{ access_section.section_title }}"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">住所（Googleマップ表示用）</label>
-                        <input type="text" name="address" value="{{ access_section.address }}"
-                               placeholder="例: 東京都港区芝公園4丁目2-8"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <p class="mt-1 text-xs text-gray-500">入力した住所がGoogleマップに表示されます</p>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">電話番号</label>
-                        <input type="text" name="phone" value="{{ access_section.phone }}"
-                               placeholder="例: 03-1234-5678"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-
-                    <div class="mb-6" x-data="{ hours: {{ access_section.business_hours|default:'[]'|safe }} }">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">営業時間</label>
-                        <div id="business-hours" class="space-y-2">
-                            <template x-if="hours.length === 0">
-                                <div>
-                                    <div class="flex gap-2 mb-2">
-                                        <input type="text" name="hours_day[]" placeholder="曜日（例: 月-金）"
-                                               class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
-                                        <input type="text" name="hours_time[]" placeholder="時間（例: 9:00-18:00）"
-                                               class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
-                                    </div>
-                                    <div class="flex gap-2">
-                                        <input type="text" name="hours_day[]" placeholder="曜日（例: 土日祝）"
-                                               class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
-                                        <input type="text" name="hours_time[]" placeholder="時間（例: 定休日）"
-                                               class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
-                                    </div>
-                                </div>
-                            </template>
-                            <template x-for="(item, index) in hours" :key="index">
-                                <div class="flex gap-2">
-                                    <input type="text" name="hours_day[]" :value="item.day"
-                                           placeholder="曜日（例: 月-金）"
-                                           class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
-                                    <input type="text" name="hours_time[]" :value="item.hours"
-                                           placeholder="時間（例: 9:00-18:00）"
-                                           class="flex-1 px-3 py-2 border border-gray-300 rounded-lg">
-                                    <button type="button" @click="hours.splice(index, 1)"
-                                            class="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </template>
+                        <div class="form-group">
+                            <label class="form-label">セクションタイトル</label>
+                            <input type="text" name="section_title" value="{{ access_section.section_title }}" class="form-input">
                         </div>
-                        <button type="button" @click="hours.push({day: '', hours: ''})"
-                                class="mt-2 text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                            営業時間を追加
-                        </button>
-                    </div>
 
-                    <!-- Style Settings -->
-                    <div class="border-t pt-4 mt-4">
-                        <h3 class="text-sm font-medium text-gray-700 mb-4">スタイル設定</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">背景色</label>
-                                <input type="color" name="access-background_color" value="{{ styles.access.background_color }}"
-                                       class="color-picker">
+                        <div class="form-group">
+                            <label class="form-label">住所（Googleマップ表示用）</label>
+                            <input type="text" name="address" value="{{ access_section.address }}"
+                                   placeholder="例: 東京都港区芝公園4丁目2-8" class="form-input">
+                            <p class="form-help-text">入力した住所がGoogleマップに表示されます</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">電話番号</label>
+                            <input type="text" name="phone" value="{{ access_section.phone }}"
+                                   placeholder="例: 03-1234-5678" class="form-input">
+                        </div>
+
+                        <div class="form-group" x-data="{ hours: {{ access_section.business_hours|default:'[]'|safe }} }">
+                            <label class="form-label">営業時間</label>
+                            <div id="business-hours" class="space-y-3">
+                                <template x-if="hours.length === 0">
+                                    <div class="space-y-3">
+                                        <div class="flex flex-col sm:flex-row gap-2">
+                                            <input type="text" name="hours_day[]" placeholder="曜日（例: 月-金）" class="form-input flex-1">
+                                            <input type="text" name="hours_time[]" placeholder="時間（例: 9:00-18:00）" class="form-input flex-1">
+                                        </div>
+                                        <div class="flex flex-col sm:flex-row gap-2">
+                                            <input type="text" name="hours_day[]" placeholder="曜日（例: 土日祝）" class="form-input flex-1">
+                                            <input type="text" name="hours_time[]" placeholder="時間（例: 定休日）" class="form-input flex-1">
+                                        </div>
+                                    </div>
+                                </template>
+                                <template x-for="(item, index) in hours" :key="index">
+                                    <div class="flex flex-col sm:flex-row gap-2">
+                                        <input type="text" name="hours_day[]" :value="item.day"
+                                               placeholder="曜日（例: 月-金）" class="form-input flex-1">
+                                        <input type="text" name="hours_time[]" :value="item.hours"
+                                               placeholder="時間（例: 9:00-18:00）" class="form-input flex-1">
+                                        <button type="button" @click="hours.splice(index, 1)"
+                                                class="btn-ghost text-error p-2 self-start sm:self-center">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </template>
                             </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">文字色</label>
-                                <input type="color" name="access-text_color" value="{{ styles.access.text_color }}"
-                                       class="color-picker">
+                            <button type="button" @click="hours.push({day: '', hours: ''})"
+                                    class="mt-3 text-sm text-primary-600 hover:text-primary-700 flex items-center gap-1 font-medium">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                                営業時間を追加
+                            </button>
+                        </div>
+
+                        <!-- Style Settings -->
+                        <div class="divider my-6"></div>
+                        <h3 class="text-sm font-semibold text-gray-700 mb-4">スタイル設定</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">背景色</label>
+                                <input type="color" name="access-background_color" value="{{ styles.access.background_color }}" class="color-picker">
                             </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">フォント</label>
-                                <select name="access-font_family" class="w-full px-2 py-1 text-sm border border-gray-300 rounded">
+                            <div class="form-group">
+                                <label class="form-label">文字色</label>
+                                <input type="color" name="access-text_color" value="{{ styles.access.text_color }}" class="color-picker">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">フォント</label>
+                                <select name="access-font_family" class="form-select">
                                     <option value="Noto Sans JP" {% if styles.access.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
                                     <option value="Noto Serif JP" {% if styles.access.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
                                     <option value="M PLUS 1p" {% if styles.access.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="flex items-center gap-4 mt-4">
-                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                            保存
-                        </button>
-                        <div id="save-indicator-access" class="save-indicator"></div>
-                    </div>
-                </form>
+                        <div class="flex items-center gap-4 pt-4">
+                            <button type="submit" class="btn-primary">保存</button>
+                            <div id="save-indicator-access" class="save-indicator"></div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
         <!-- SNS Tab -->
-        <div x-show="activeTab === 'sns'" class="space-y-6">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">SNSリンク設定</h2>
-                <form method="post" action="{% url 'sites:save_sns' user_id=user.id site_id=site.id %}"
-                      hx-post="{% url 'sites:save_sns' user_id=user.id site_id=site.id %}"
-                      hx-target="#save-indicator-sns"
-                      hx-swap="innerHTML">
-                    {% csrf_token %}
+        <div x-show="activeTab === 'sns'" class="space-y-6" x-cloak>
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title mb-6">SNSリンク設定</h2>
+                    <form method="post" action="{% url 'sites:save_sns' user_id=user.id site_id=site.id %}"
+                          hx-post="{% url 'sites:save_sns' user_id=user.id site_id=site.id %}"
+                          hx-target="#save-indicator-sns"
+                          hx-swap="innerHTML">
+                        {% csrf_token %}
 
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-28 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-pink-600" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                                </svg>
-                                <span class="text-sm font-medium text-gray-700">Instagram</span>
+                        <div class="space-y-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                                <div class="w-full sm:w-32 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-pink-600 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                    </svg>
+                                    <span class="text-sm font-medium text-gray-700">Instagram</span>
+                                </div>
+                                <input type="url" name="sns_instagram" value="{{ sns_links_dict.instagram|default:'' }}"
+                                       placeholder="https://instagram.com/..." class="form-input flex-1">
                             </div>
-                            <input type="url" name="sns_instagram" value="{{ sns_links_dict.instagram|default:'' }}"
-                                   placeholder="https://instagram.com/..."
-                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                                <div class="w-full sm:w-32 flex items-center gap-2">
+                                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                    </svg>
+                                    <span class="text-sm font-medium text-gray-700">X (Twitter)</span>
+                                </div>
+                                <input type="url" name="sns_x" value="{{ sns_links_dict.x|default:'' }}"
+                                       placeholder="https://x.com/..." class="form-input flex-1">
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                                <div class="w-full sm:w-32 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+                                    </svg>
+                                    <span class="text-sm font-medium text-gray-700">LINE</span>
+                                </div>
+                                <input type="url" name="sns_line" value="{{ sns_links_dict.line|default:'' }}"
+                                       placeholder="https://line.me/..." class="form-input flex-1">
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                                <div class="w-full sm:w-32 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-blue-600 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                    </svg>
+                                    <span class="text-sm font-medium text-gray-700">Facebook</span>
+                                </div>
+                                <input type="url" name="sns_facebook" value="{{ sns_links_dict.facebook|default:'' }}"
+                                       placeholder="https://facebook.com/..." class="form-input flex-1">
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                                <div class="w-full sm:w-32 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-red-600 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                    </svg>
+                                    <span class="text-sm font-medium text-gray-700">YouTube</span>
+                                </div>
+                                <input type="url" name="sns_youtube" value="{{ sns_links_dict.youtube|default:'' }}"
+                                       placeholder="https://youtube.com/..." class="form-input flex-1">
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                                <div class="w-full sm:w-32 flex items-center gap-2">
+                                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                                    </svg>
+                                    <span class="text-sm font-medium text-gray-700">TikTok</span>
+                                </div>
+                                <input type="url" name="sns_tiktok" value="{{ sns_links_dict.tiktok|default:'' }}"
+                                       placeholder="https://tiktok.com/..." class="form-input flex-1">
+                            </div>
                         </div>
 
-                        <div class="flex items-center gap-4">
-                            <div class="w-28 flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                                </svg>
-                                <span class="text-sm font-medium text-gray-700">X (Twitter)</span>
-                            </div>
-                            <input type="url" name="sns_x" value="{{ sns_links_dict.x|default:'' }}"
-                                   placeholder="https://x.com/..."
-                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <div class="flex items-center gap-4 pt-6">
+                            <button type="submit" class="btn-primary">保存</button>
+                            <div id="save-indicator-sns" class="save-indicator"></div>
                         </div>
-
-                        <div class="flex items-center gap-4">
-                            <div class="w-28 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
-                                </svg>
-                                <span class="text-sm font-medium text-gray-700">LINE</span>
-                            </div>
-                            <input type="url" name="sns_line" value="{{ sns_links_dict.line|default:'' }}"
-                                   placeholder="https://line.me/..."
-                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-
-                        <div class="flex items-center gap-4">
-                            <div class="w-28 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                                </svg>
-                                <span class="text-sm font-medium text-gray-700">Facebook</span>
-                            </div>
-                            <input type="url" name="sns_facebook" value="{{ sns_links_dict.facebook|default:'' }}"
-                                   placeholder="https://facebook.com/..."
-                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-
-                        <div class="flex items-center gap-4">
-                            <div class="w-28 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                                </svg>
-                                <span class="text-sm font-medium text-gray-700">YouTube</span>
-                            </div>
-                            <input type="url" name="sns_youtube" value="{{ sns_links_dict.youtube|default:'' }}"
-                                   placeholder="https://youtube.com/..."
-                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-
-                        <div class="flex items-center gap-4">
-                            <div class="w-28 flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-                                </svg>
-                                <span class="text-sm font-medium text-gray-700">TikTok</span>
-                            </div>
-                            <input type="url" name="sns_tiktok" value="{{ sns_links_dict.tiktok|default:'' }}"
-                                   placeholder="https://tiktok.com/..."
-                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-4 mt-6">
-                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                            保存
-                        </button>
-                        <div id="save-indicator-sns" class="save-indicator"></div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </main>
