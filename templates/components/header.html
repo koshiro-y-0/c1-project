@@ -1,0 +1,68 @@
+{% load static %}
+
+{# Header コンポーネント - ナビゲーションとSNSリンク #}
+<header class="section-style"
+        style="background-color: {{ style.background_color|default:'#FFFFFF' }};
+               color: {{ style.text_color|default:'#000000' }};
+               font-family: '{{ style.font_family|default:'Noto Sans JP' }}', sans-serif;">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex justify-between items-center">
+            <!-- Logo -->
+            <div class="text-2xl font-bold">
+                <a href="#top" class="hover:opacity-80 transition-opacity">
+                    /{{ site.title }}
+                </a>
+            </div>
+
+            <!-- Navigation - Desktop -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#top" class="hover:opacity-70 transition-opacity font-medium">ホーム</a>
+                <a href="#main" class="hover:opacity-70 transition-opacity font-medium">メイン</a>
+                <a href="#sub" class="hover:opacity-70 transition-opacity font-medium">詳細</a>
+                <a href="#access" class="hover:opacity-70 transition-opacity font-medium">アクセス</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden p-2" x-data="{ open: false }" @click="open = !open">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+
+            <!-- SNS Links -->
+            <div class="hidden md:flex items-center gap-3">
+                {% for sns in sns_links %}
+                {% if sns.is_active %}
+                <a href="{{ sns.url }}" target="_blank" rel="noopener noreferrer"
+                   class="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-70 transition-opacity"
+                   style="background-color: {% if sns.platform == 'instagram' %}#E4405F{% elif sns.platform == 'x' %}#000000{% elif sns.platform == 'line' %}#00B900{% elif sns.platform == 'facebook' %}#1877F2{% elif sns.platform == 'youtube' %}#FF0000{% elif sns.platform == 'tiktok' %}#000000{% endif %};"
+                   title="{{ sns.get_platform_display }}">
+                    {% include 'components/sns_icon.html' with platform=sns.platform %}
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="md:hidden mt-4 space-y-2" x-show="open" x-cloak>
+            <a href="#top" class="block py-2 hover:opacity-70 transition-opacity">ホーム</a>
+            <a href="#main" class="block py-2 hover:opacity-70 transition-opacity">メイン</a>
+            <a href="#sub" class="block py-2 hover:opacity-70 transition-opacity">詳細</a>
+            <a href="#access" class="block py-2 hover:opacity-70 transition-opacity">アクセス</a>
+
+            <!-- Mobile SNS Links -->
+            <div class="flex items-center gap-3 pt-4 border-t">
+                {% for sns in sns_links %}
+                {% if sns.is_active %}
+                <a href="{{ sns.url }}" target="_blank" rel="noopener noreferrer"
+                   class="w-8 h-8 rounded-full flex items-center justify-center"
+                   style="background-color: {% if sns.platform == 'instagram' %}#E4405F{% elif sns.platform == 'x' %}#000000{% elif sns.platform == 'line' %}#00B900{% elif sns.platform == 'facebook' %}#1877F2{% elif sns.platform == 'youtube' %}#FF0000{% elif sns.platform == 'tiktok' %}#000000{% endif %};">
+                    {% include 'components/sns_icon.html' with platform=sns.platform size='small' %}
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+</header>

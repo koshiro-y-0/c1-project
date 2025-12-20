@@ -170,40 +170,40 @@
 ## Phase 5: コンポーネント実装
 
 ### 5.1 Header + Top コンポーネント
-- [ ] templates/components/header.html
-- [ ] ロゴ表示
-- [ ] ナビゲーションメニュー
-- [ ] SNSアイコンリンク
-- [ ] アンカーリンク設定（#top, #main, #sub, #access）
+- [x] templates/components/header.html
+- [x] ロゴ表示
+- [x] ナビゲーションメニュー
+- [x] SNSアイコンリンク
+- [x] アンカーリンク設定（#top, #main, #sub, #access）
 
-- [ ] templates/components/top.html
-- [ ] ヒーロー画像表示
-- [ ] レスポンシブ対応
+- [x] templates/components/top.html
+- [x] ヒーロー画像表示
+- [x] レスポンシブ対応
 
 ### 5.2 Main コンポーネント
-- [ ] templates/components/main.html
-- [ ] Swiper.jsカルーセル実装
-  - [ ] 3枚の画像スライド
-  - [ ] 自動再生（300ms間隔）
-  - [ ] スライド送り（3500ms）
-  - [ ] ホバー停止
-  - [ ] ナビゲーションボタン
-- [ ] タイトル・サブタイトル表示
+- [x] templates/components/main.html
+- [x] Swiper.jsカルーセル実装
+  - [x] 3枚の画像スライド
+  - [x] 自動再生（300ms間隔）
+  - [x] スライド送り（3500ms）
+  - [x] ホバー停止
+  - [x] ナビゲーションボタン
+- [x] タイトル・サブタイトル表示
 
 ### 5.3 Sub コンポーネント
-- [ ] templates/components/sub.html
-- [ ] 画像とテキストの交互配置レイアウト
-  - [ ] 画像1（左）+ テキスト1（右）
-  - [ ] テキスト2（左）+ 画像2（右）
-  - [ ] 画像3（左）+ テキスト3（右）
-- [ ] レスポンシブ対応（モバイルでは縦積み）
+- [x] templates/components/sub.html
+- [x] 画像とテキストの交互配置レイアウト
+  - [x] 画像1（左）+ テキスト1（右）
+  - [x] テキスト2（左）+ 画像2（右）
+  - [x] 画像3（左）+ テキスト3（右）
+- [x] レスポンシブ対応（モバイルでは縦積み）
 
 ### 5.4 Access コンポーネント
-- [ ] templates/components/access.html
-- [ ] Googleマップ iframe埋め込み
-  - [ ] 住所からiframe URL生成
-- [ ] 電話番号表示
-- [ ] 営業時間表示（複数対応）
+- [x] templates/components/access.html
+- [x] Googleマップ iframe埋め込み
+  - [x] 住所からiframe URL生成
+- [x] 電話番号表示
+- [x] 営業時間表示（複数対応）
 
 ---
 
@@ -334,12 +334,12 @@
 | Phase 2 | 23 | 23 | 100% |
 | Phase 3 | 8 | 8 | 100% |
 | Phase 4 | 17 | 17 | 100% |
-| Phase 5 | 18 | 0 | 0% |
+| Phase 5 | 18 | 18 | 100% |
 | Phase 6 | 14 | 0 | 0% |
 | Phase 7 | 12 | 0 | 0% |
 | Phase 8 | 10 | 0 | 0% |
 | Phase 9 | 9 | 0 | 0% |
-| **合計** | **136** | **73** | **54%** |
+| **合計** | **136** | **91** | **67%** |
 
 ---
 
