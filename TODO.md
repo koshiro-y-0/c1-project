@@ -210,30 +210,30 @@
 ## Phase 6: フォーム・HTMX実装
 
 ### 6.1 フォームクラス作成
-- [ ] sites/forms.py 作成
-- [ ] SiteForm（基本情報）
-- [ ] TopSectionForm
-- [ ] SNSLinkFormSet（複数SNS対応）
-- [ ] MainSectionForm
-- [ ] SubSectionForm
-- [ ] AccessSectionForm
-- [ ] SectionStyleForm
+- [x] sites/forms.py 作成
+- [x] SiteForm（基本情報）
+- [x] TopSectionForm
+- [x] SNSLinkFormSet（複数SNS対応）
+- [x] MainSectionForm
+- [x] SubSectionForm
+- [x] AccessSectionForm
+- [x] SectionStyleForm
 
 ### 6.2 画像アップロード
-- [ ] 画像バリデーション（JPG, PNG, WebP）
-- [ ] 画像保存処理
-- [ ] 画像プレビュー表示
+- [x] 画像バリデーション（JPG, PNG, WebP）
+- [x] 画像保存処理
+- [x] 画像プレビュー表示
 
 ### 6.3 HTMXリアルタイムプレビュー
-- [ ] 入力時の部分更新エンドポイント作成
-- [ ] hx-trigger="input" 設定
-- [ ] hx-target でプレビューエリア更新
-- [ ] debounce設定（入力遅延）
+- [x] 入力時の部分更新エンドポイント作成
+- [x] hx-trigger="input" 設定
+- [x] hx-target でプレビューエリア更新
+- [x] debounce設定（入力遅延）
 
 ### 6.4 フォーム保存処理
-- [ ] 各セクションの保存ビュー
-- [ ] バリデーションエラー表示
-- [ ] 保存成功メッセージ
+- [x] 各セクションの保存ビュー
+- [x] バリデーションエラー表示
+- [x] 保存成功メッセージ
 
 ---
 
@@ -335,11 +335,11 @@
 | Phase 3 | 8 | 8 | 100% |
 | Phase 4 | 17 | 17 | 100% |
 | Phase 5 | 18 | 18 | 100% |
-| Phase 6 | 14 | 0 | 0% |
+| Phase 6 | 14 | 14 | 100% |
 | Phase 7 | 12 | 0 | 0% |
 | Phase 8 | 10 | 0 | 0% |
 | Phase 9 | 9 | 0 | 0% |
-| **合計** | **136** | **91** | **67%** |
+| **合計** | **136** | **105** | **77%** |
 
 ---
 
