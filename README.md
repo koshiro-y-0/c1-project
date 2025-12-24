@@ -23,12 +23,70 @@ WebQは、テンプレートベースで簡単にウェブサイトを作成で�
 | データベース | SQLite |
 | カルーセル | Swiper.js |
 
-## セットアップ手順
+## クイックスタート（Windows）
+
+### 初回セットアップ
+
+```cmd
+git clone https://github.com/koshiro-y-0/c1-project
+cd c1-project
+py -3 -m venv venv
+venv\Scripts\activate.bat
+pip install -r requirements.txt
+npm install
+npm run build:css
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+### 2回目以降の起動
+
+```cmd
+cd c1-project
+venv\Scripts\activate.bat
+python manage.py runserver
+```
+
+ブラウザで http://127.0.0.1:8000/ にアクセス
+
+---
+
+## クイックスタート（Mac/Linux）
+
+### 初回セットアップ
+
+```bash
+git clone https://github.com/koshiro-y-0/c1-project
+cd c1-project
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+npm install
+npm run build:css
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+### 2回目以降の起動
+
+```bash
+cd c1-project
+source venv/bin/activate
+python manage.py runserver
+```
+
+ブラウザで http://127.0.0.1:8000/ にアクセス
+
+---
+
+## セットアップ手順（詳細）
 
 ### 1. リポジトリのクローン
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/koshiro-y-0/c1-project
 cd c1-project
 ```
 
@@ -36,13 +94,13 @@ cd c1-project
 
 ```bash
 # 仮想環境の作成
-python -m venv venv
-
-# 仮想環境の有効化
-# Linux/Mac:
-source venv/bin/activate
 # Windows:
-# venv\Scripts\activate
+py -3 -m venv venv
+venv\Scripts\activate.bat
+
+# Mac/Linux:
+python3 -m venv venv
+source venv/bin/activate
 
 # 依存パッケージのインストール
 pip install -r requirements.txt
@@ -52,6 +110,7 @@ pip install -r requirements.txt
 
 ```bash
 npm install
+npm run build:css
 ```
 
 ### 4. データベースのセットアップ
@@ -67,13 +126,6 @@ python manage.py createsuperuser
 ### 5. 開発サーバーの起動
 
 ```bash
-# TailwindCSSのビルド（別ターミナル）
-npm run build:css
-
-# または監視モード
-npm run dev
-
-# Djangoサーバー起動
 python manage.py runserver
 ```
 
