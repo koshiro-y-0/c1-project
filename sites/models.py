@@ -52,6 +52,12 @@ class SectionStyle(models.Model):
 
 class TopSection(models.Model):
     """トップセクション"""
+    IMAGE_FIT_CHOICES = [
+        ('cover', 'カバー（トリミング）'),
+        ('contain', '全体表示'),
+        ('fill', '引き伸ばし'),
+    ]
+
     site = models.OneToOneField(Site, on_delete=models.CASCADE, related_name='top_section')
     hero_image = models.ImageField(
         'ヒーロー画像',
@@ -60,6 +66,8 @@ class TopSection(models.Model):
         blank=True,
         null=True
     )
+    hero_image_fit = models.CharField('画像表示モード', max_length=20, choices=IMAGE_FIT_CHOICES, default='cover')
+    hero_image_height = models.IntegerField('画像高さ(px)', default=500)
 
     class Meta:
         verbose_name = 'トップセクション'
@@ -96,6 +104,12 @@ class SNSLink(models.Model):
 
 class MainSection(models.Model):
     """メインセクション（カルーセル）"""
+    IMAGE_FIT_CHOICES = [
+        ('cover', 'カバー（トリミング）'),
+        ('contain', '全体表示'),
+        ('fill', '引き伸ばし'),
+    ]
+
     site = models.OneToOneField(Site, on_delete=models.CASCADE, related_name='main_section')
     title = models.CharField('タイトル', max_length=100, blank=True)
     subtitle = models.CharField('サブタイトル', max_length=200, blank=True)
@@ -120,6 +134,8 @@ class MainSection(models.Model):
         blank=True,
         null=True
     )
+    image_fit = models.CharField('画像表示モード', max_length=20, choices=IMAGE_FIT_CHOICES, default='cover')
+    image_height = models.IntegerField('画像高さ(px)', default=400)
 
     class Meta:
         verbose_name = 'メインセクション'
@@ -131,6 +147,12 @@ class MainSection(models.Model):
 
 class SubSection(models.Model):
     """サブセクション（画像+テキスト）"""
+    IMAGE_FIT_CHOICES = [
+        ('cover', 'カバー（トリミング）'),
+        ('contain', '全体表示'),
+        ('fill', '引き伸ばし'),
+    ]
+
     site = models.OneToOneField(Site, on_delete=models.CASCADE, related_name='sub_section')
     image1 = models.ImageField(
         '画像1',
@@ -156,6 +178,8 @@ class SubSection(models.Model):
         null=True
     )
     text3 = models.TextField('テキスト3', blank=True)
+    image_fit = models.CharField('画像表示モード', max_length=20, choices=IMAGE_FIT_CHOICES, default='cover')
+    image_height = models.IntegerField('画像高さ(px)', default=256)
 
     class Meta:
         verbose_name = 'サブセクション'

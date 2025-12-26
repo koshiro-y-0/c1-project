@@ -22,11 +22,33 @@ class SiteForm(forms.ModelForm):
 class SectionStyleForm(forms.ModelForm):
     """セクションスタイル設定フォーム"""
     FONT_CHOICES = [
-        ('Noto Sans JP', 'Noto Sans JP'),
-        ('Noto Serif JP', 'Noto Serif JP'),
-        ('M PLUS 1p', 'M PLUS 1p'),
-        ('Kosugi Maru', 'Kosugi Maru'),
-        ('Sawarabi Mincho', 'Sawarabi Mincho'),
+        # ゴシック系
+        ('Noto Sans JP', 'Noto Sans JP（ゴシック）'),
+        ('M PLUS 1p', 'M PLUS 1p（ゴシック）'),
+        ('M PLUS Rounded 1c', 'M PLUS Rounded 1c（丸ゴシック）'),
+        ('Kosugi Maru', 'Kosugi Maru（丸ゴシック）'),
+        ('Zen Kaku Gothic New', 'Zen Kaku Gothic New（ゴシック）'),
+        # 明朝系
+        ('Noto Serif JP', 'Noto Serif JP（明朝）'),
+        ('Sawarabi Mincho', 'Sawarabi Mincho（明朝）'),
+        ('Zen Old Mincho', 'Zen Old Mincho（明朝）'),
+        ('Shippori Mincho', 'Shippori Mincho（明朝）'),
+        # デザイン系
+        ('Zen Maru Gothic', 'Zen Maru Gothic（丸ゴシック）'),
+        ('Kaisei Decol', 'Kaisei Decol（デコラティブ）'),
+        ('Dela Gothic One', 'Dela Gothic One（太字）'),
+        ('Reggae One', 'Reggae One（ポップ）'),
+        ('RocknRoll One', 'RocknRoll One（ポップ）'),
+        ('Yusei Magic', 'Yusei Magic（手書き風）'),
+        ('Klee One', 'Klee One（手書き風）'),
+        ('Hachi Maru Pop', 'Hachi Maru Pop（ポップ）'),
+        # 英語フォント
+        ('Roboto', 'Roboto（英語）'),
+        ('Open Sans', 'Open Sans（英語）'),
+        ('Lato', 'Lato（英語）'),
+        ('Montserrat', 'Montserrat（英語）'),
+        ('Poppins', 'Poppins（英語）'),
+        ('Playfair Display', 'Playfair Display（英語セリフ）'),
     ]
 
     font_family = forms.ChoiceField(
@@ -55,11 +77,20 @@ class TopSectionForm(forms.ModelForm):
     """トップセクションフォーム"""
     class Meta:
         model = TopSection
-        fields = ['hero_image']
+        fields = ['hero_image', 'hero_image_fit', 'hero_image_height']
         widgets = {
             'hero_image': forms.FileInput(attrs={
                 'accept': '.jpg,.jpeg,.png,.webp',
                 'class': 'block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100',
+            }),
+            'hero_image_fit': forms.Select(attrs={
+                'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',
+            }),
+            'hero_image_height': forms.NumberInput(attrs={
+                'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',
+                'min': '100',
+                'max': '1000',
+                'step': '50',
             }),
         }
 
@@ -68,7 +99,7 @@ class MainSectionForm(forms.ModelForm):
     """メインセクション（カルーセル）フォーム"""
     class Meta:
         model = MainSection
-        fields = ['title', 'subtitle', 'image1', 'image2', 'image3']
+        fields = ['title', 'subtitle', 'image1', 'image2', 'image3', 'image_fit', 'image_height']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent',
@@ -90,6 +121,15 @@ class MainSectionForm(forms.ModelForm):
                 'accept': '.jpg,.jpeg,.png,.webp',
                 'class': 'block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100',
             }),
+            'image_fit': forms.Select(attrs={
+                'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',
+            }),
+            'image_height': forms.NumberInput(attrs={
+                'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',
+                'min': '100',
+                'max': '800',
+                'step': '50',
+            }),
         }
 
 
@@ -97,7 +137,7 @@ class SubSectionForm(forms.ModelForm):
     """サブセクションフォーム"""
     class Meta:
         model = SubSection
-        fields = ['image1', 'text1', 'image2', 'text2', 'image3', 'text3']
+        fields = ['image1', 'text1', 'image2', 'text2', 'image3', 'text3', 'image_fit', 'image_height']
         widgets = {
             'image1': forms.FileInput(attrs={
                 'accept': '.jpg,.jpeg,.png,.webp',
@@ -125,6 +165,15 @@ class SubSectionForm(forms.ModelForm):
                 'rows': 3,
                 'class': 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent',
                 'placeholder': 'テキストを入力',
+            }),
+            'image_fit': forms.Select(attrs={
+                'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',
+            }),
+            'image_height': forms.NumberInput(attrs={
+                'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',
+                'min': '100',
+                'max': '600',
+                'step': '50',
             }),
         }
 
