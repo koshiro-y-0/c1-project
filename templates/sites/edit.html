@@ -133,6 +133,23 @@
                             <p class="form-help-text">対応形式: JPG, PNG, WebP</p>
                         </div>
 
+                        <!-- Image Settings -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                            <div class="form-group">
+                                <label class="form-label">画像表示モード</label>
+                                <select name="hero_image_fit" class="form-select">
+                                    <option value="cover" {% if top_section.hero_image_fit == 'cover' %}selected{% endif %}>カバー（トリミング）</option>
+                                    <option value="contain" {% if top_section.hero_image_fit == 'contain' %}selected{% endif %}>全体表示</option>
+                                    <option value="fill" {% if top_section.hero_image_fit == 'fill' %}selected{% endif %}>引き伸ばし</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">画像高さ(px)</label>
+                                <input type="number" name="hero_image_height" value="{{ top_section.hero_image_height|default:500 }}"
+                                       min="100" max="1000" step="50" class="form-input">
+                            </div>
+                        </div>
+
                         <!-- Style Settings -->
                         <div class="divider my-6"></div>
                         <h3 class="text-sm font-semibold text-gray-700 mb-4">スタイル設定</h3>
@@ -154,11 +171,37 @@
                             <div class="form-group">
                                 <label class="form-label">フォント</label>
                                 <select name="top-font_family" class="form-select">
-                                    <option value="Noto Sans JP" {% if styles.top.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
-                                    <option value="Noto Serif JP" {% if styles.top.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
-                                    <option value="M PLUS 1p" {% if styles.top.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
-                                    <option value="Kosugi Maru" {% if styles.top.font_family == 'Kosugi Maru' %}selected{% endif %}>Kosugi Maru</option>
-                                    <option value="Sawarabi Mincho" {% if styles.top.font_family == 'Sawarabi Mincho' %}selected{% endif %}>Sawarabi Mincho</option>
+                                    <optgroup label="ゴシック系">
+                                        <option value="Noto Sans JP" {% if styles.top.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
+                                        <option value="M PLUS 1p" {% if styles.top.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
+                                        <option value="M PLUS Rounded 1c" {% if styles.top.font_family == 'M PLUS Rounded 1c' %}selected{% endif %}>M PLUS Rounded 1c（丸ゴシック）</option>
+                                        <option value="Kosugi Maru" {% if styles.top.font_family == 'Kosugi Maru' %}selected{% endif %}>Kosugi Maru（丸ゴシック）</option>
+                                        <option value="Zen Kaku Gothic New" {% if styles.top.font_family == 'Zen Kaku Gothic New' %}selected{% endif %}>Zen Kaku Gothic New</option>
+                                    </optgroup>
+                                    <optgroup label="明朝系">
+                                        <option value="Noto Serif JP" {% if styles.top.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
+                                        <option value="Sawarabi Mincho" {% if styles.top.font_family == 'Sawarabi Mincho' %}selected{% endif %}>Sawarabi Mincho</option>
+                                        <option value="Zen Old Mincho" {% if styles.top.font_family == 'Zen Old Mincho' %}selected{% endif %}>Zen Old Mincho</option>
+                                        <option value="Shippori Mincho" {% if styles.top.font_family == 'Shippori Mincho' %}selected{% endif %}>Shippori Mincho</option>
+                                    </optgroup>
+                                    <optgroup label="デザイン系">
+                                        <option value="Zen Maru Gothic" {% if styles.top.font_family == 'Zen Maru Gothic' %}selected{% endif %}>Zen Maru Gothic（丸ゴシック）</option>
+                                        <option value="Kaisei Decol" {% if styles.top.font_family == 'Kaisei Decol' %}selected{% endif %}>Kaisei Decol（デコラティブ）</option>
+                                        <option value="Dela Gothic One" {% if styles.top.font_family == 'Dela Gothic One' %}selected{% endif %}>Dela Gothic One（太字）</option>
+                                        <option value="Reggae One" {% if styles.top.font_family == 'Reggae One' %}selected{% endif %}>Reggae One（ポップ）</option>
+                                        <option value="RocknRoll One" {% if styles.top.font_family == 'RocknRoll One' %}selected{% endif %}>RocknRoll One（ポップ）</option>
+                                        <option value="Yusei Magic" {% if styles.top.font_family == 'Yusei Magic' %}selected{% endif %}>Yusei Magic（手書き風）</option>
+                                        <option value="Klee One" {% if styles.top.font_family == 'Klee One' %}selected{% endif %}>Klee One（手書き風）</option>
+                                        <option value="Hachi Maru Pop" {% if styles.top.font_family == 'Hachi Maru Pop' %}selected{% endif %}>Hachi Maru Pop（ポップ）</option>
+                                    </optgroup>
+                                    <optgroup label="英語フォント">
+                                        <option value="Roboto" {% if styles.top.font_family == 'Roboto' %}selected{% endif %}>Roboto</option>
+                                        <option value="Open Sans" {% if styles.top.font_family == 'Open Sans' %}selected{% endif %}>Open Sans</option>
+                                        <option value="Lato" {% if styles.top.font_family == 'Lato' %}selected{% endif %}>Lato</option>
+                                        <option value="Montserrat" {% if styles.top.font_family == 'Montserrat' %}selected{% endif %}>Montserrat</option>
+                                        <option value="Poppins" {% if styles.top.font_family == 'Poppins' %}selected{% endif %}>Poppins</option>
+                                        <option value="Playfair Display" {% if styles.top.font_family == 'Playfair Display' %}selected{% endif %}>Playfair Display（セリフ）</option>
+                                    </optgroup>
                                 </select>
                             </div>
                         </div>
@@ -237,6 +280,25 @@
                             </div>
                         </div>
 
+                        <!-- Image Settings -->
+                        <div class="divider my-6"></div>
+                        <h3 class="text-sm font-semibold text-gray-700 mb-4">画像設定</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">画像表示モード</label>
+                                <select name="image_fit" class="form-select">
+                                    <option value="cover" {% if main_section.image_fit == 'cover' %}selected{% endif %}>カバー（トリミング）</option>
+                                    <option value="contain" {% if main_section.image_fit == 'contain' %}selected{% endif %}>全体表示</option>
+                                    <option value="fill" {% if main_section.image_fit == 'fill' %}selected{% endif %}>引き伸ばし</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">画像高さ(px)</label>
+                                <input type="number" name="image_height" value="{{ main_section.image_height|default:500 }}"
+                                       min="100" max="800" step="50" class="form-input">
+                            </div>
+                        </div>
+
                         <!-- Style Settings -->
                         <div class="divider my-6"></div>
                         <h3 class="text-sm font-semibold text-gray-700 mb-4">スタイル設定</h3>
@@ -252,9 +314,37 @@
                             <div class="form-group">
                                 <label class="form-label">フォント</label>
                                 <select name="main-font_family" class="form-select">
-                                    <option value="Noto Sans JP" {% if styles.main.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
-                                    <option value="Noto Serif JP" {% if styles.main.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
-                                    <option value="M PLUS 1p" {% if styles.main.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
+                                    <optgroup label="ゴシック系">
+                                        <option value="Noto Sans JP" {% if styles.main.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
+                                        <option value="M PLUS 1p" {% if styles.main.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
+                                        <option value="M PLUS Rounded 1c" {% if styles.main.font_family == 'M PLUS Rounded 1c' %}selected{% endif %}>M PLUS Rounded 1c（丸ゴシック）</option>
+                                        <option value="Kosugi Maru" {% if styles.main.font_family == 'Kosugi Maru' %}selected{% endif %}>Kosugi Maru（丸ゴシック）</option>
+                                        <option value="Zen Kaku Gothic New" {% if styles.main.font_family == 'Zen Kaku Gothic New' %}selected{% endif %}>Zen Kaku Gothic New</option>
+                                    </optgroup>
+                                    <optgroup label="明朝系">
+                                        <option value="Noto Serif JP" {% if styles.main.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
+                                        <option value="Sawarabi Mincho" {% if styles.main.font_family == 'Sawarabi Mincho' %}selected{% endif %}>Sawarabi Mincho</option>
+                                        <option value="Zen Old Mincho" {% if styles.main.font_family == 'Zen Old Mincho' %}selected{% endif %}>Zen Old Mincho</option>
+                                        <option value="Shippori Mincho" {% if styles.main.font_family == 'Shippori Mincho' %}selected{% endif %}>Shippori Mincho</option>
+                                    </optgroup>
+                                    <optgroup label="デザイン系">
+                                        <option value="Zen Maru Gothic" {% if styles.main.font_family == 'Zen Maru Gothic' %}selected{% endif %}>Zen Maru Gothic（丸ゴシック）</option>
+                                        <option value="Kaisei Decol" {% if styles.main.font_family == 'Kaisei Decol' %}selected{% endif %}>Kaisei Decol（デコラティブ）</option>
+                                        <option value="Dela Gothic One" {% if styles.main.font_family == 'Dela Gothic One' %}selected{% endif %}>Dela Gothic One（太字）</option>
+                                        <option value="Reggae One" {% if styles.main.font_family == 'Reggae One' %}selected{% endif %}>Reggae One（ポップ）</option>
+                                        <option value="RocknRoll One" {% if styles.main.font_family == 'RocknRoll One' %}selected{% endif %}>RocknRoll One（ポップ）</option>
+                                        <option value="Yusei Magic" {% if styles.main.font_family == 'Yusei Magic' %}selected{% endif %}>Yusei Magic（手書き風）</option>
+                                        <option value="Klee One" {% if styles.main.font_family == 'Klee One' %}selected{% endif %}>Klee One（手書き風）</option>
+                                        <option value="Hachi Maru Pop" {% if styles.main.font_family == 'Hachi Maru Pop' %}selected{% endif %}>Hachi Maru Pop（ポップ）</option>
+                                    </optgroup>
+                                    <optgroup label="英語フォント">
+                                        <option value="Roboto" {% if styles.main.font_family == 'Roboto' %}selected{% endif %}>Roboto</option>
+                                        <option value="Open Sans" {% if styles.main.font_family == 'Open Sans' %}selected{% endif %}>Open Sans</option>
+                                        <option value="Lato" {% if styles.main.font_family == 'Lato' %}selected{% endif %}>Lato</option>
+                                        <option value="Montserrat" {% if styles.main.font_family == 'Montserrat' %}selected{% endif %}>Montserrat</option>
+                                        <option value="Poppins" {% if styles.main.font_family == 'Poppins' %}selected{% endif %}>Poppins</option>
+                                        <option value="Playfair Display" {% if styles.main.font_family == 'Playfair Display' %}selected{% endif %}>Playfair Display（セリフ）</option>
+                                    </optgroup>
                                 </select>
                             </div>
                         </div>
@@ -347,6 +437,25 @@
                             </div>
                         </div>
 
+                        <!-- Image Settings -->
+                        <div class="divider my-6"></div>
+                        <h3 class="text-sm font-semibold text-gray-700 mb-4">画像設定</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">画像表示モード</label>
+                                <select name="image_fit" class="form-select">
+                                    <option value="cover" {% if sub_section.image_fit == 'cover' %}selected{% endif %}>カバー（トリミング）</option>
+                                    <option value="contain" {% if sub_section.image_fit == 'contain' %}selected{% endif %}>全体表示</option>
+                                    <option value="fill" {% if sub_section.image_fit == 'fill' %}selected{% endif %}>引き伸ばし</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">画像高さ(px)</label>
+                                <input type="number" name="image_height" value="{{ sub_section.image_height|default:256 }}"
+                                       min="100" max="600" step="50" class="form-input">
+                            </div>
+                        </div>
+
                         <!-- Style Settings -->
                         <div class="divider my-6"></div>
                         <h3 class="text-sm font-semibold text-gray-700 mb-4">スタイル設定</h3>
@@ -362,9 +471,37 @@
                             <div class="form-group">
                                 <label class="form-label">フォント</label>
                                 <select name="sub-font_family" class="form-select">
-                                    <option value="Noto Sans JP" {% if styles.sub.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
-                                    <option value="Noto Serif JP" {% if styles.sub.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
-                                    <option value="M PLUS 1p" {% if styles.sub.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
+                                    <optgroup label="ゴシック系">
+                                        <option value="Noto Sans JP" {% if styles.sub.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
+                                        <option value="M PLUS 1p" {% if styles.sub.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
+                                        <option value="M PLUS Rounded 1c" {% if styles.sub.font_family == 'M PLUS Rounded 1c' %}selected{% endif %}>M PLUS Rounded 1c（丸ゴシック）</option>
+                                        <option value="Kosugi Maru" {% if styles.sub.font_family == 'Kosugi Maru' %}selected{% endif %}>Kosugi Maru（丸ゴシック）</option>
+                                        <option value="Zen Kaku Gothic New" {% if styles.sub.font_family == 'Zen Kaku Gothic New' %}selected{% endif %}>Zen Kaku Gothic New</option>
+                                    </optgroup>
+                                    <optgroup label="明朝系">
+                                        <option value="Noto Serif JP" {% if styles.sub.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
+                                        <option value="Sawarabi Mincho" {% if styles.sub.font_family == 'Sawarabi Mincho' %}selected{% endif %}>Sawarabi Mincho</option>
+                                        <option value="Zen Old Mincho" {% if styles.sub.font_family == 'Zen Old Mincho' %}selected{% endif %}>Zen Old Mincho</option>
+                                        <option value="Shippori Mincho" {% if styles.sub.font_family == 'Shippori Mincho' %}selected{% endif %}>Shippori Mincho</option>
+                                    </optgroup>
+                                    <optgroup label="デザイン系">
+                                        <option value="Zen Maru Gothic" {% if styles.sub.font_family == 'Zen Maru Gothic' %}selected{% endif %}>Zen Maru Gothic（丸ゴシック）</option>
+                                        <option value="Kaisei Decol" {% if styles.sub.font_family == 'Kaisei Decol' %}selected{% endif %}>Kaisei Decol（デコラティブ）</option>
+                                        <option value="Dela Gothic One" {% if styles.sub.font_family == 'Dela Gothic One' %}selected{% endif %}>Dela Gothic One（太字）</option>
+                                        <option value="Reggae One" {% if styles.sub.font_family == 'Reggae One' %}selected{% endif %}>Reggae One（ポップ）</option>
+                                        <option value="RocknRoll One" {% if styles.sub.font_family == 'RocknRoll One' %}selected{% endif %}>RocknRoll One（ポップ）</option>
+                                        <option value="Yusei Magic" {% if styles.sub.font_family == 'Yusei Magic' %}selected{% endif %}>Yusei Magic（手書き風）</option>
+                                        <option value="Klee One" {% if styles.sub.font_family == 'Klee One' %}selected{% endif %}>Klee One（手書き風）</option>
+                                        <option value="Hachi Maru Pop" {% if styles.sub.font_family == 'Hachi Maru Pop' %}selected{% endif %}>Hachi Maru Pop（ポップ）</option>
+                                    </optgroup>
+                                    <optgroup label="英語フォント">
+                                        <option value="Roboto" {% if styles.sub.font_family == 'Roboto' %}selected{% endif %}>Roboto</option>
+                                        <option value="Open Sans" {% if styles.sub.font_family == 'Open Sans' %}selected{% endif %}>Open Sans</option>
+                                        <option value="Lato" {% if styles.sub.font_family == 'Lato' %}selected{% endif %}>Lato</option>
+                                        <option value="Montserrat" {% if styles.sub.font_family == 'Montserrat' %}selected{% endif %}>Montserrat</option>
+                                        <option value="Poppins" {% if styles.sub.font_family == 'Poppins' %}selected{% endif %}>Poppins</option>
+                                        <option value="Playfair Display" {% if styles.sub.font_family == 'Playfair Display' %}selected{% endif %}>Playfair Display（セリフ）</option>
+                                    </optgroup>
                                 </select>
                             </div>
                         </div>
@@ -461,9 +598,37 @@
                             <div class="form-group">
                                 <label class="form-label">フォント</label>
                                 <select name="access-font_family" class="form-select">
-                                    <option value="Noto Sans JP" {% if styles.access.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
-                                    <option value="Noto Serif JP" {% if styles.access.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
-                                    <option value="M PLUS 1p" {% if styles.access.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
+                                    <optgroup label="ゴシック系">
+                                        <option value="Noto Sans JP" {% if styles.access.font_family == 'Noto Sans JP' %}selected{% endif %}>Noto Sans JP</option>
+                                        <option value="M PLUS 1p" {% if styles.access.font_family == 'M PLUS 1p' %}selected{% endif %}>M PLUS 1p</option>
+                                        <option value="M PLUS Rounded 1c" {% if styles.access.font_family == 'M PLUS Rounded 1c' %}selected{% endif %}>M PLUS Rounded 1c（丸ゴシック）</option>
+                                        <option value="Kosugi Maru" {% if styles.access.font_family == 'Kosugi Maru' %}selected{% endif %}>Kosugi Maru（丸ゴシック）</option>
+                                        <option value="Zen Kaku Gothic New" {% if styles.access.font_family == 'Zen Kaku Gothic New' %}selected{% endif %}>Zen Kaku Gothic New</option>
+                                    </optgroup>
+                                    <optgroup label="明朝系">
+                                        <option value="Noto Serif JP" {% if styles.access.font_family == 'Noto Serif JP' %}selected{% endif %}>Noto Serif JP</option>
+                                        <option value="Sawarabi Mincho" {% if styles.access.font_family == 'Sawarabi Mincho' %}selected{% endif %}>Sawarabi Mincho</option>
+                                        <option value="Zen Old Mincho" {% if styles.access.font_family == 'Zen Old Mincho' %}selected{% endif %}>Zen Old Mincho</option>
+                                        <option value="Shippori Mincho" {% if styles.access.font_family == 'Shippori Mincho' %}selected{% endif %}>Shippori Mincho</option>
+                                    </optgroup>
+                                    <optgroup label="デザイン系">
+                                        <option value="Zen Maru Gothic" {% if styles.access.font_family == 'Zen Maru Gothic' %}selected{% endif %}>Zen Maru Gothic（丸ゴシック）</option>
+                                        <option value="Kaisei Decol" {% if styles.access.font_family == 'Kaisei Decol' %}selected{% endif %}>Kaisei Decol（デコラティブ）</option>
+                                        <option value="Dela Gothic One" {% if styles.access.font_family == 'Dela Gothic One' %}selected{% endif %}>Dela Gothic One（太字）</option>
+                                        <option value="Reggae One" {% if styles.access.font_family == 'Reggae One' %}selected{% endif %}>Reggae One（ポップ）</option>
+                                        <option value="RocknRoll One" {% if styles.access.font_family == 'RocknRoll One' %}selected{% endif %}>RocknRoll One（ポップ）</option>
+                                        <option value="Yusei Magic" {% if styles.access.font_family == 'Yusei Magic' %}selected{% endif %}>Yusei Magic（手書き風）</option>
+                                        <option value="Klee One" {% if styles.access.font_family == 'Klee One' %}selected{% endif %}>Klee One（手書き風）</option>
+                                        <option value="Hachi Maru Pop" {% if styles.access.font_family == 'Hachi Maru Pop' %}selected{% endif %}>Hachi Maru Pop（ポップ）</option>
+                                    </optgroup>
+                                    <optgroup label="英語フォント">
+                                        <option value="Roboto" {% if styles.access.font_family == 'Roboto' %}selected{% endif %}>Roboto</option>
+                                        <option value="Open Sans" {% if styles.access.font_family == 'Open Sans' %}selected{% endif %}>Open Sans</option>
+                                        <option value="Lato" {% if styles.access.font_family == 'Lato' %}selected{% endif %}>Lato</option>
+                                        <option value="Montserrat" {% if styles.access.font_family == 'Montserrat' %}selected{% endif %}>Montserrat</option>
+                                        <option value="Poppins" {% if styles.access.font_family == 'Poppins' %}selected{% endif %}>Poppins</option>
+                                        <option value="Playfair Display" {% if styles.access.font_family == 'Playfair Display' %}selected{% endif %}>Playfair Display（セリフ）</option>
+                                    </optgroup>
                                 </select>
                             </div>
                         </div>
