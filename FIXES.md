@@ -232,3 +232,99 @@ python manage.py migrate
 **ファイル**: `templates/sites/edit.html`
 
 メインセクションの画像高さのデフォルト値を400pxから500pxに変更
+
+---
+
+## 2025-12-28: 文字サイズ・配置オプション追加、アプリ名変更、ボタン位置修正
+
+### 1. 各セクションに文字サイズ・配置オプションを追加
+
+#### 問題
+- 文字の大きさや配置を選べなかった
+
+#### 修正内容
+**ファイル**: `sites/models.py`
+
+SectionStyleモデルに以下のフィールドを追加：
+```python
+TEXT_SIZE_CHOICES = [
+    ('text-sm', '小'),
+    ('text-base', '中'),
+    ('text-lg', '大'),
+    ('text-xl', '特大'),
+    ('text-2xl', '極大'),
+]
+
+TEXT_ALIGN_CHOICES = [
+    ('text-left', '左揃え'),
+    ('text-center', '中央揃え'),
+    ('text-right', '右揃え'),
+]
+
+text_size = models.CharField('文字サイズ', max_length=20, choices=TEXT_SIZE_CHOICES, default='text-base')
+text_align = models.CharField('文字配置', max_length=20, choices=TEXT_ALIGN_CHOICES, default='text-left')
+```
+
+**ファイル**: `sites/forms.py`
+
+SectionStyleFormのfieldsに`text_size`, `text_align`を追加
+
+**ファイル**: `templates/sites/edit.html`
+
+全セクション（トップ/メイン/サブ/アクセス）のスタイル設定に以下を追加：
+- 文字サイズ選択（小/中/大/特大/極大）
+- 文字配置選択（左揃え/中央揃え/右揃え）
+
+**ファイル**: `templates/sites/preview.html`
+
+各セクションにTailwindCSSクラスを動的に適用：
+```html
+<section id="main" class="section-style py-16 {{ styles.main.text_size|default:'text-base' }} {{ styles.main.text_align|default:'text-left' }}"
+```
+
+---
+
+### 2. アプリケーション名を「67」に変更
+
+#### 修正内容
+**ファイル**: `templates/base.html`
+- title: `WebQ` → `67`
+- meta description: `WebQ` → `67`
+- favicon: `W` → `67`
+
+**ファイル**: `templates/sites/list.html`
+- ヘッダーのロゴ: `WebQ` → `67`
+- title: `WebQ` → `67`
+
+**ファイル**: `templates/sites/edit.html`
+- title: `WebQ` → `67`
+
+**ファイル**: `templates/sites/preview.html`
+- footer: `Powered by WebQ` → `Powered by 67`
+
+---
+
+### 3. 編集に戻るボタンを右下に移動
+
+#### 問題
+- プレビューページで編集に戻るボタンがSNSリンクとかぶっていた
+
+#### 修正内容
+**ファイル**: `templates/sites/preview.html`
+
+ボタンの位置を変更：
+```html
+<!-- 変更前 -->
+<a href="..." class="fixed top-4 right-4 z-50 ...">
+
+<!-- 変更後 -->
+<a href="..." class="fixed bottom-4 right-4 z-50 ...">
+```
+
+---
+
+### マイグレーション
+```bash
+python manage.py makemigrations sites
+python manage.py migrate
+```

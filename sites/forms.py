@@ -60,7 +60,7 @@ class SectionStyleForm(forms.ModelForm):
 
     class Meta:
         model = SectionStyle
-        fields = ['background_color', 'text_color', 'font_family']
+        fields = ['background_color', 'text_color', 'font_family', 'text_size', 'text_align']
         widgets = {
             'background_color': forms.TextInput(attrs={
                 'type': 'color',
@@ -69,6 +69,12 @@ class SectionStyleForm(forms.ModelForm):
             'text_color': forms.TextInput(attrs={
                 'type': 'color',
                 'class': 'color-picker',
+            }),
+            'text_size': forms.Select(attrs={
+                'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',
+            }),
+            'text_align': forms.Select(attrs={
+                'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',
             }),
         }
 

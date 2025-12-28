@@ -11,9 +11,9 @@
 {% endblock %}
 
 {% block content %}
-<!-- Edit Button (Fixed) -->
+<!-- Edit Button (Fixed - Bottom Right) -->
 <a href="{% url 'sites:site_edit' user_id=site.user.id site_id=site.id %}"
-   class="fixed top-4 right-4 z-50 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
+   class="fixed bottom-4 right-4 z-50 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
@@ -22,7 +22,7 @@
 </a>
 
 <!-- Header -->
-<header id="top" class="section-style"
+<header id="top" class="section-style {{ styles.top.text_size|default:'text-base' }} {{ styles.top.text_align|default:'text-left' }}"
         style="background-color: {{ styles.top.background_color|default:'#FFFFFF' }}; color: {{ styles.top.text_color|default:'#000000' }}; font-family: '{{ styles.top.font_family|default:'Noto Sans JP' }}', sans-serif;">
     <nav class="w-full px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex justify-between items-center">
@@ -96,7 +96,7 @@
 </header>
 
 <!-- Main Section (Carousel) -->
-<section id="main" class="section-style py-16"
+<section id="main" class="section-style py-16 {{ styles.main.text_size|default:'text-base' }} {{ styles.main.text_align|default:'text-left' }}"
          style="background-color: {{ styles.main.background_color|default:'#FFFFFF' }}; color: {{ styles.main.text_color|default:'#000000' }}; font-family: '{{ styles.main.font_family|default:'Noto Sans JP' }}', sans-serif;">
     <div class="max-w-6xl mx-auto px-4">
         {% if main_section.title or main_section.subtitle %}
@@ -144,7 +144,7 @@
 </section>
 
 <!-- Sub Section -->
-<section id="sub" class="section-style py-16"
+<section id="sub" class="section-style py-16 {{ styles.sub.text_size|default:'text-base' }} {{ styles.sub.text_align|default:'text-left' }}"
          style="background-color: {{ styles.sub.background_color|default:'#FFFFFF' }}; color: {{ styles.sub.text_color|default:'#000000' }}; font-family: '{{ styles.sub.font_family|default:'Noto Sans JP' }}', sans-serif;">
     <div class="w-full px-4 space-y-12">
         {% if sub_section %}
@@ -206,7 +206,7 @@
 </section>
 
 <!-- Access Section -->
-<section id="access" class="section-style py-16"
+<section id="access" class="section-style py-16 {{ styles.access.text_size|default:'text-base' }} {{ styles.access.text_align|default:'text-left' }}"
          style="background-color: {{ styles.access.background_color|default:'#F3F4F6' }}; color: {{ styles.access.text_color|default:'#000000' }}; font-family: '{{ styles.access.font_family|default:'Noto Sans JP' }}', sans-serif;">
     <div class="max-w-4xl mx-auto px-4">
         <h2 class="text-2xl font-bold text-center mb-8">{{ access_section.section_title|default:"アクセス" }}</h2>
@@ -250,7 +250,7 @@
 <footer class="bg-gray-800 text-white py-8">
     <div class="w-full px-4 text-center">
         <p>&copy; {{ site.title }}</p>
-        <p class="text-sm text-gray-400 mt-2">Powered by WebQ</p>
+        <p class="text-sm text-gray-400 mt-2">Powered by 67</p>
     </div>
 </footer>
 {% endblock %}

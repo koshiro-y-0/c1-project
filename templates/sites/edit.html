@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ site.title }} - 編集 - WebQ{% endblock %}
+{% block title %}{{ site.title }} - 編集 - 67{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -169,6 +169,24 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="form-label">文字サイズ</label>
+                                <select name="top-text_size" class="form-select">
+                                    <option value="text-sm" {% if styles.top.text_size == 'text-sm' %}selected{% endif %}>小</option>
+                                    <option value="text-base" {% if styles.top.text_size == 'text-base' or not styles.top.text_size %}selected{% endif %}>中</option>
+                                    <option value="text-lg" {% if styles.top.text_size == 'text-lg' %}selected{% endif %}>大</option>
+                                    <option value="text-xl" {% if styles.top.text_size == 'text-xl' %}selected{% endif %}>特大</option>
+                                    <option value="text-2xl" {% if styles.top.text_size == 'text-2xl' %}selected{% endif %}>極大</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">文字配置</label>
+                                <select name="top-text_align" class="form-select">
+                                    <option value="text-left" {% if styles.top.text_align == 'text-left' or not styles.top.text_align %}selected{% endif %}>左揃え</option>
+                                    <option value="text-center" {% if styles.top.text_align == 'text-center' %}selected{% endif %}>中央揃え</option>
+                                    <option value="text-right" {% if styles.top.text_align == 'text-right' %}selected{% endif %}>右揃え</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label class="form-label">フォント</label>
                                 <select name="top-font_family" class="form-select">
                                     <optgroup label="ゴシック系">
@@ -310,6 +328,24 @@
                             <div class="form-group">
                                 <label class="form-label">文字色</label>
                                 <input type="color" name="main-text_color" value="{{ styles.main.text_color }}" class="color-picker">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">文字サイズ</label>
+                                <select name="main-text_size" class="form-select">
+                                    <option value="text-sm" {% if styles.main.text_size == 'text-sm' %}selected{% endif %}>小</option>
+                                    <option value="text-base" {% if styles.main.text_size == 'text-base' or not styles.main.text_size %}selected{% endif %}>中</option>
+                                    <option value="text-lg" {% if styles.main.text_size == 'text-lg' %}selected{% endif %}>大</option>
+                                    <option value="text-xl" {% if styles.main.text_size == 'text-xl' %}selected{% endif %}>特大</option>
+                                    <option value="text-2xl" {% if styles.main.text_size == 'text-2xl' %}selected{% endif %}>極大</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">文字配置</label>
+                                <select name="main-text_align" class="form-select">
+                                    <option value="text-left" {% if styles.main.text_align == 'text-left' or not styles.main.text_align %}selected{% endif %}>左揃え</option>
+                                    <option value="text-center" {% if styles.main.text_align == 'text-center' %}selected{% endif %}>中央揃え</option>
+                                    <option value="text-right" {% if styles.main.text_align == 'text-right' %}selected{% endif %}>右揃え</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">フォント</label>
@@ -469,6 +505,24 @@
                                 <input type="color" name="sub-text_color" value="{{ styles.sub.text_color }}" class="color-picker">
                             </div>
                             <div class="form-group">
+                                <label class="form-label">文字サイズ</label>
+                                <select name="sub-text_size" class="form-select">
+                                    <option value="text-sm" {% if styles.sub.text_size == 'text-sm' %}selected{% endif %}>小</option>
+                                    <option value="text-base" {% if styles.sub.text_size == 'text-base' or not styles.sub.text_size %}selected{% endif %}>中</option>
+                                    <option value="text-lg" {% if styles.sub.text_size == 'text-lg' %}selected{% endif %}>大</option>
+                                    <option value="text-xl" {% if styles.sub.text_size == 'text-xl' %}selected{% endif %}>特大</option>
+                                    <option value="text-2xl" {% if styles.sub.text_size == 'text-2xl' %}selected{% endif %}>極大</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">文字配置</label>
+                                <select name="sub-text_align" class="form-select">
+                                    <option value="text-left" {% if styles.sub.text_align == 'text-left' or not styles.sub.text_align %}selected{% endif %}>左揃え</option>
+                                    <option value="text-center" {% if styles.sub.text_align == 'text-center' %}selected{% endif %}>中央揃え</option>
+                                    <option value="text-right" {% if styles.sub.text_align == 'text-right' %}selected{% endif %}>右揃え</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label class="form-label">フォント</label>
                                 <select name="sub-font_family" class="form-select">
                                     <optgroup label="ゴシック系">
@@ -594,6 +648,24 @@
                             <div class="form-group">
                                 <label class="form-label">文字色</label>
                                 <input type="color" name="access-text_color" value="{{ styles.access.text_color }}" class="color-picker">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">文字サイズ</label>
+                                <select name="access-text_size" class="form-select">
+                                    <option value="text-sm" {% if styles.access.text_size == 'text-sm' %}selected{% endif %}>小</option>
+                                    <option value="text-base" {% if styles.access.text_size == 'text-base' or not styles.access.text_size %}selected{% endif %}>中</option>
+                                    <option value="text-lg" {% if styles.access.text_size == 'text-lg' %}selected{% endif %}>大</option>
+                                    <option value="text-xl" {% if styles.access.text_size == 'text-xl' %}selected{% endif %}>特大</option>
+                                    <option value="text-2xl" {% if styles.access.text_size == 'text-2xl' %}selected{% endif %}>極大</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">文字配置</label>
+                                <select name="access-text_align" class="form-select">
+                                    <option value="text-left" {% if styles.access.text_align == 'text-left' or not styles.access.text_align %}selected{% endif %}>左揃え</option>
+                                    <option value="text-center" {% if styles.access.text_align == 'text-center' %}selected{% endif %}>中央揃え</option>
+                                    <option value="text-right" {% if styles.access.text_align == 'text-right' %}selected{% endif %}>右揃え</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">フォント</label>
