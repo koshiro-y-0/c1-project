@@ -19,8 +19,8 @@ media/
 node_modules/
 package-lock.json
 
-# TailwindCSS output (regenerated)
-static/css/styles.css
+# TailwindCSS source (keep output for deployment)
+static/css/input.css
 
 # IDE
 .vscode/
