@@ -328,3 +328,38 @@ SectionStyleFormのfieldsに`text_size`, `text_align`を追加
 python manage.py makemigrations sites
 python manage.py migrate
 ```
+
+---
+
+## 2025-12-28: 文字サイズ・配置オプションが機能しない問題を修正
+
+### 問題
+- 文字サイズを変更しても反映されない
+- 右揃え（text-right）が機能しない
+
+### 原因
+- TailwindCSSがテンプレートで動的に使用されるクラス（`text-left`, `text-right`, `text-sm`など）を未使用と判断し、ビルド時に削除していた
+
+### 修正内容
+**ファイル**: `tailwind.config.js`
+
+safelistを追加して、動的に使用されるクラスを強制的にCSSに含めるように設定：
+```javascript
+safelist: [
+  // Text alignment classes
+  'text-left',
+  'text-center',
+  'text-right',
+  // Text size classes
+  'text-sm',
+  'text-base',
+  'text-lg',
+  'text-xl',
+  'text-2xl',
+],
+```
+
+### CSSの再ビルド
+```bash
+npm run build:css
+```

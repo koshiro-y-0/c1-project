@@ -4,6 +4,18 @@ module.exports = {
     './templates/**/*.html',
     './static/js/**/*.js',
   ],
+  safelist: [
+    // Text alignment classes (dynamically applied via Django templates)
+    'text-left',
+    'text-center',
+    'text-right',
+    // Text size classes (dynamically applied via Django templates)
+    'text-sm',
+    'text-base',
+    'text-lg',
+    'text-xl',
+    'text-2xl',
+  ],
   theme: {
     extend: {
       colors: {
