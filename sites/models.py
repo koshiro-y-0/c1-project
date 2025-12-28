@@ -35,14 +35,6 @@ class SectionStyle(models.Model):
         ('access', 'アクセス'),
     ]
 
-    TEXT_SIZE_CHOICES = [
-        ('text-sm', '小'),
-        ('text-base', '中'),
-        ('text-lg', '大'),
-        ('text-xl', '特大'),
-        ('text-2xl', '極大'),
-    ]
-
     TEXT_ALIGN_CHOICES = [
         ('text-left', '左揃え'),
         ('text-center', '中央揃え'),
@@ -54,7 +46,7 @@ class SectionStyle(models.Model):
     background_color = models.CharField('背景色', max_length=7, default='#FFFFFF')
     text_color = models.CharField('文字色', max_length=7, default='#000000')
     font_family = models.CharField('フォント', max_length=100, default='Noto Sans JP')
-    text_size = models.CharField('文字サイズ', max_length=20, choices=TEXT_SIZE_CHOICES, default='text-base')
+    text_size = models.IntegerField('文字サイズ(px)', default=16)
     text_align = models.CharField('文字配置', max_length=20, choices=TEXT_ALIGN_CHOICES, default='text-left')
 
     class Meta:

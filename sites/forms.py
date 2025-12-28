@@ -70,8 +70,11 @@ class SectionStyleForm(forms.ModelForm):
                 'type': 'color',
                 'class': 'color-picker',
             }),
-            'text_size': forms.Select(attrs={
+            'text_size': forms.NumberInput(attrs={
                 'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',
+                'min': '10',
+                'max': '48',
+                'step': '1',
             }),
             'text_align': forms.Select(attrs={
                 'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',

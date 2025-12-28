@@ -405,3 +405,76 @@ npm run build:css
 ```
 
 これにより、セクションに設定された`text_size`クラスがすべてのテキスト要素に適用される
+
+---
+
+## 2025-12-28: 文字サイズを数値(px)で入力可能に変更
+
+### 問題
+- 文字サイズの選択肢（小/中/大/特大/極大）では変化が分かりにくい
+
+### 修正内容
+
+#### 1. モデル変更
+**ファイル**: `sites/models.py`
+
+`text_size`フィールドをCharFieldからIntegerFieldに変更：
+```python
+# 変更前
+text_size = models.CharField('文字サイズ', max_length=20, choices=TEXT_SIZE_CHOICES, default='text-base')
+
+# 変更後
+text_size = models.IntegerField('文字サイズ(px)', default=16)
+```
+
+#### 2. フォーム変更
+**ファイル**: `sites/forms.py`
+
+ウィジェットをSelectからNumberInputに変更：
+```python
+'text_size': forms.NumberInput(attrs={
+    'class': 'w-full px-2 py-1 text-sm border border-gray-300 rounded',
+    'min': '10',
+    'max': '48',
+    'step': '1',
+}),
+```
+
+#### 3. 編集テンプレート変更
+**ファイル**: `templates/sites/edit.html`
+
+全セクションの文字サイズ入力を数値入力に変更：
+```html
+<!-- 変更前 -->
+<select name="top-text_size" class="form-select">
+    <option value="text-sm">小</option>
+    ...
+</select>
+
+<!-- 変更後 -->
+<input type="number" name="top-text_size" value="{{ styles.top.text_size|default:16 }}"
+       min="10" max="48" step="1" class="form-input">
+```
+
+#### 4. プレビューテンプレート変更
+**ファイル**: `templates/sites/preview.html`
+
+TailwindCSSクラスからインラインスタイルに変更：
+```html
+<!-- 変更前 -->
+<section id="main" class="section-style py-16 {{ styles.main.text_size|default:'text-base' }} ...">
+
+<!-- 変更後 -->
+<section id="main" class="section-style py-16 ..."
+         style="... font-size: {{ styles.main.text_size|default:16 }}px;">
+```
+
+### マイグレーション
+```bash
+python manage.py makemigrations sites
+python manage.py migrate
+```
+
+### 備考
+- 文字サイズは10px〜48pxの範囲で1px単位で設定可能
+- デフォルト値は16px（標準的なブラウザのデフォルト）

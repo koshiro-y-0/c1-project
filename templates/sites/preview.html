@@ -22,8 +22,8 @@
 </a>
 
 <!-- Header -->
-<header id="top" class="section-style {{ styles.top.text_size|default:'text-base' }} {{ styles.top.text_align|default:'text-left' }}"
-        style="background-color: {{ styles.top.background_color|default:'#FFFFFF' }}; color: {{ styles.top.text_color|default:'#000000' }}; font-family: '{{ styles.top.font_family|default:'Noto Sans JP' }}', sans-serif;">
+<header id="top" class="section-style {{ styles.top.text_align|default:'text-left' }}"
+        style="background-color: {{ styles.top.background_color|default:'#FFFFFF' }}; color: {{ styles.top.text_color|default:'#000000' }}; font-family: '{{ styles.top.font_family|default:'Noto Sans JP' }}', sans-serif; font-size: {{ styles.top.text_size|default:16 }}px;">
     <nav class="w-full px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex justify-between items-center">
             <!-- Logo -->
@@ -96,8 +96,8 @@
 </header>
 
 <!-- Main Section (Carousel) -->
-<section id="main" class="section-style py-16 {{ styles.main.text_size|default:'text-base' }} {{ styles.main.text_align|default:'text-left' }}"
-         style="background-color: {{ styles.main.background_color|default:'#FFFFFF' }}; color: {{ styles.main.text_color|default:'#000000' }}; font-family: '{{ styles.main.font_family|default:'Noto Sans JP' }}', sans-serif;">
+<section id="main" class="section-style py-16 {{ styles.main.text_align|default:'text-left' }}"
+         style="background-color: {{ styles.main.background_color|default:'#FFFFFF' }}; color: {{ styles.main.text_color|default:'#000000' }}; font-family: '{{ styles.main.font_family|default:'Noto Sans JP' }}', sans-serif; font-size: {{ styles.main.text_size|default:16 }}px;">
     <div class="max-w-6xl mx-auto px-4">
         {% if main_section.title or main_section.subtitle %}
         <div class="text-center mb-8 bg-white/80 py-4 rounded-lg shadow max-w-4xl mx-auto">
@@ -144,8 +144,8 @@
 </section>
 
 <!-- Sub Section -->
-<section id="sub" class="section-style py-16 {{ styles.sub.text_size|default:'text-base' }} {{ styles.sub.text_align|default:'text-left' }}"
-         style="background-color: {{ styles.sub.background_color|default:'#FFFFFF' }}; color: {{ styles.sub.text_color|default:'#000000' }}; font-family: '{{ styles.sub.font_family|default:'Noto Sans JP' }}', sans-serif;">
+<section id="sub" class="section-style py-16 {{ styles.sub.text_align|default:'text-left' }}"
+         style="background-color: {{ styles.sub.background_color|default:'#FFFFFF' }}; color: {{ styles.sub.text_color|default:'#000000' }}; font-family: '{{ styles.sub.font_family|default:'Noto Sans JP' }}', sans-serif; font-size: {{ styles.sub.text_size|default:16 }}px;">
     <div class="w-full px-4 space-y-12">
         {% if sub_section %}
         <!-- Item 1: Image Left -->
@@ -206,8 +206,8 @@
 </section>
 
 <!-- Access Section -->
-<section id="access" class="section-style py-16 {{ styles.access.text_size|default:'text-base' }} {{ styles.access.text_align|default:'text-left' }}"
-         style="background-color: {{ styles.access.background_color|default:'#F3F4F6' }}; color: {{ styles.access.text_color|default:'#000000' }}; font-family: '{{ styles.access.font_family|default:'Noto Sans JP' }}', sans-serif;">
+<section id="access" class="section-style py-16 {{ styles.access.text_align|default:'text-left' }}"
+         style="background-color: {{ styles.access.background_color|default:'#F3F4F6' }}; color: {{ styles.access.text_color|default:'#000000' }}; font-family: '{{ styles.access.font_family|default:'Noto Sans JP' }}', sans-serif; font-size: {{ styles.access.text_size|default:16 }}px;">
     <div class="max-w-4xl mx-auto px-4">
         <h2 class="font-bold text-center mb-8">{{ access_section.section_title|default:"アクセス" }}</h2>
 
