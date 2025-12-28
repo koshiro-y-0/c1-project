@@ -363,3 +363,45 @@ safelist: [
 ```bash
 npm run build:css
 ```
+
+---
+
+## 2025-12-28: 文字サイズが反映されない問題を修正
+
+### 問題
+- 文字サイズ（text-sm, text-base, text-lg等）を変更しても反映されない
+
+### 原因
+- `text_size`クラスは`<section>`要素に適用されていたが、内部のテキスト要素にハードコードされたフォントサイズクラス（`text-lg`, `text-2xl`等）が親のスタイルを上書きしていた
+
+### 修正内容
+**ファイル**: `templates/sites/preview.html`
+
+内部要素からハードコードされたフォントサイズクラスを削除し、セクションから継承するよう変更：
+
+```html
+<!-- メインセクション -->
+<!-- 変更前 -->
+<h2 class="text-2xl font-bold mb-2">
+<p class="text-gray-600">
+
+<!-- 変更後 -->
+<h2 class="font-bold mb-2">
+<p class="opacity-70">
+
+<!-- サブセクション -->
+<!-- 変更前 -->
+<p class="text-lg leading-relaxed">
+
+<!-- 変更後 -->
+<p class="leading-relaxed">
+
+<!-- アクセスセクション -->
+<!-- 変更前 -->
+<h2 class="text-2xl font-bold text-center mb-8">
+
+<!-- 変更後 -->
+<h2 class="font-bold text-center mb-8">
+```
+
+これにより、セクションに設定された`text_size`クラスがすべてのテキスト要素に適用される

@@ -102,10 +102,10 @@
         {% if main_section.title or main_section.subtitle %}
         <div class="text-center mb-8 bg-white/80 py-4 rounded-lg shadow max-w-4xl mx-auto">
             {% if main_section.title %}
-            <h2 class="text-2xl font-bold mb-2">{{ main_section.title }}</h2>
+            <h2 class="font-bold mb-2">{{ main_section.title }}</h2>
             {% endif %}
             {% if main_section.subtitle %}
-            <p class="text-gray-600">{{ main_section.subtitle }}</p>
+            <p class="opacity-70">{{ main_section.subtitle }}</p>
             {% endif %}
         </div>
         {% endif %}
@@ -162,7 +162,7 @@
                 {% endif %}
             </div>
             <div class="w-full md:w-1/2">
-                <p class="text-lg leading-relaxed">{{ sub_section.text1|default:"テキストが設定されていません" }}</p>
+                <p class="leading-relaxed">{{ sub_section.text1|default:"テキストが設定されていません" }}</p>
             </div>
         </div>
 
@@ -180,7 +180,7 @@
                 {% endif %}
             </div>
             <div class="w-full md:w-1/2">
-                <p class="text-lg leading-relaxed">{{ sub_section.text2|default:"テキストが設定されていません" }}</p>
+                <p class="leading-relaxed">{{ sub_section.text2|default:"テキストが設定されていません" }}</p>
             </div>
         </div>
 
@@ -198,7 +198,7 @@
                 {% endif %}
             </div>
             <div class="w-full md:w-1/2">
-                <p class="text-lg leading-relaxed">{{ sub_section.text3|default:"テキストが設定されていません" }}</p>
+                <p class="leading-relaxed">{{ sub_section.text3|default:"テキストが設定されていません" }}</p>
             </div>
         </div>
         {% endif %}
@@ -209,7 +209,7 @@
 <section id="access" class="section-style py-16 {{ styles.access.text_size|default:'text-base' }} {{ styles.access.text_align|default:'text-left' }}"
          style="background-color: {{ styles.access.background_color|default:'#F3F4F6' }}; color: {{ styles.access.text_color|default:'#000000' }}; font-family: '{{ styles.access.font_family|default:'Noto Sans JP' }}', sans-serif;">
     <div class="max-w-4xl mx-auto px-4">
-        <h2 class="text-2xl font-bold text-center mb-8">{{ access_section.section_title|default:"アクセス" }}</h2>
+        <h2 class="font-bold text-center mb-8">{{ access_section.section_title|default:"アクセス" }}</h2>
 
         {% if access_section.address %}
         <!-- Google Map -->
